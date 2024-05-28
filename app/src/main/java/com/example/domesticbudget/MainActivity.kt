@@ -1,5 +1,6 @@
 package com.example.domesticbudget
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         enableEdgeToEdge()
@@ -28,12 +30,21 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        binding.btnAbrirGastos.setOnClickListener {
+            startActivity(Intent(this, GastosActivity::class.java))
+        }
     }
 
     private fun inicializarToolbar() {
-        binding.includeToolbar.tbPrincipal.title = "Gastos"
+        binding.includeToolbar.tbPrincipal.title = "Novo gasto"
         binding.includeToolbar.tbPrincipal.isTitleCentered = true
-        binding.includeToolbar.tbPrincipal.setTitleTextColor(ContextCompat.getColor(this,R.color.md_theme_onPrimary))
+        binding.includeToolbar.tbPrincipal.setTitleTextColor(
+            ContextCompat.getColor(
+                this,
+                R.color.md_theme_onPrimary
+            )
+        )
 
         setSupportActionBar(binding.includeToolbar.tbPrincipal)
     }

@@ -14,6 +14,7 @@ class GastosActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityGastosBinding.inflate(layoutInflater)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -28,14 +29,17 @@ class GastosActivity : AppCompatActivity() {
         }
 
 
-
-
     }
 
     private fun inicializarToolbar() {
         binding.includeToolbarGastos.tbPrincipal.title = "Gastos"
         binding.includeToolbarGastos.tbPrincipal.isTitleCentered = true
-        binding.includeToolbarGastos.tbPrincipal.setTitleTextColor(ContextCompat.getColor(this,R.color.md_theme_onPrimary))
+        binding.includeToolbarGastos.tbPrincipal.setTitleTextColor(
+            ContextCompat.getColor(
+                this,
+                R.color.md_theme_onPrimary
+            )
+        )
 
         setSupportActionBar(binding.includeToolbarGastos.tbPrincipal)
     }
