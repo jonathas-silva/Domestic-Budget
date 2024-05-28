@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Domestic Budget</string>
+    <string name="title_activity_gastos">GastosActivity</string>
 </resources>

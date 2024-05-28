@@ -6,35 +6,37 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.domesticbudget.databinding.ActivityGastosBinding
 import com.example.domesticbudget.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class GastosActivity : AppCompatActivity() {
 
     private val binding by lazy {
-        ActivityMainBinding.inflate(layoutInflater)
+        ActivityGastosBinding.inflate(layoutInflater)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        enableEdgeToEdge()
-
-
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        enableEdgeToEdge()
 
         inicializarToolbar()
 
+        setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
+
+
     }
 
     private fun inicializarToolbar() {
-        binding.includeToolbar.tbPrincipal.title = "Gastos"
-        binding.includeToolbar.tbPrincipal.isTitleCentered = true
-        binding.includeToolbar.tbPrincipal.setTitleTextColor(ContextCompat.getColor(this,R.color.md_theme_onPrimary))
+        binding.includeToolbarGastos.tbPrincipal.title = "Gastos"
+        binding.includeToolbarGastos.tbPrincipal.isTitleCentered = true
+        binding.includeToolbarGastos.tbPrincipal.setTitleTextColor(ContextCompat.getColor(this,R.color.md_theme_onPrimary))
 
-        setSupportActionBar(binding.includeToolbar.tbPrincipal)
+        setSupportActionBar(binding.includeToolbarGastos.tbPrincipal)
     }
 }
