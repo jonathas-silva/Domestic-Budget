@@ -4,7 +4,3 @@ Domestic Budget é um aplicativo para controle de orçamento doméstico desenvol
 #### Tecnologias Utilizadas
 - Kotlin
 - SQLite
-- Funcionalidades
-- Adicionar despesas e receitas
-- Visualizar histórico de transações
-- Gerar relatórios de gastos
