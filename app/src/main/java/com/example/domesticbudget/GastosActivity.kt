@@ -17,7 +17,6 @@ class GastosActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         inicializarToolbar()
 
@@ -40,7 +39,7 @@ class GastosActivity : AppCompatActivity() {
                 R.color.md_theme_onPrimary
             )
         )
-
         setSupportActionBar(binding.includeToolbarGastos.tbPrincipal)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 }
