@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:icon="@drawable/novo_gasto_ic"
+        android:title="Novo gasto" />
+    <item
+        android:icon="@drawable/gastos_ic"
+        android:title="Gastos" />
+    <item
+        android:icon="@drawable/categories_ic"
+        android:title="Categorias" />
+</menu>
