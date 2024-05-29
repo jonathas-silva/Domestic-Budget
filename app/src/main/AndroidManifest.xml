@@ -12,12 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DomesticBudget"
         tools:targetApi="31">
-        <activity
-            android:name=".GastosActivity"
-            android:parentActivityName=".MainActivity"
-            android:exported="false"
-            android:label="@string/title_activity_gastos"
-            android:theme="@style/Theme.DomesticBudget" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -30,9 +30,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        binding.btnAbrirGastos.setOnClickListener {
-            startActivity(Intent(this, GastosActivity::class.java))
-        }
     }
 
     private fun inicializarToolbar() {
