@@ -24,15 +24,15 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerCategorias"
-            android:layout_width="409dp"
-            android:layout_height="649dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnNovaCategoria" />
+            app:layout_constraintTop_toBottomOf="@+id/btnNovaCategoria"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_categorias" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
