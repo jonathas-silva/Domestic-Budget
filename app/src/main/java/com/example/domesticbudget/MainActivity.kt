@@ -20,17 +20,41 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
-
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         inicializarToolbar()
-        replaceFragment(CategoriasFragment())
+        replaceFragment(NovoGastoFragment())
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
+        //Manipulação do bottom menu
+        binding.bottomMenu.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.novo_gasto -> {
+                    replaceFragment(NovoGastoFragment())
+                    binding.includeToolbar.tbPrincipal.title = "Novo gasto"
+                }
+
+                R.id.categorias -> {
+                    replaceFragment(CategoriasFragment())
+                    binding.includeToolbar.tbPrincipal.title = "Categorias"
+                }
+
+                R.id.gastos -> {
+                    replaceFragment(GastosFragment())
+                    binding.includeToolbar.tbPrincipal.title = "Gastos"
+                }
+
+                else -> {}
+            }
+            true
+        }
+
 
     }
 
