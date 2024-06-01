@@ -1,3 +1,6 @@
 package com.example.domesticbudget
 
-data class Categoria()
+data class Categoria(
+    val nome: String,
+    val valor: String
+)

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
 class CategoriasAdapter (
-    private val lista: List<String>
+    private val lista: List<Categoria>
 ): Adapter<CategoriasAdapter.CategoriasViewHolder>() {
 
     inner class CategoriasViewHolder(
@@ -41,13 +41,14 @@ class CategoriasAdapter (
         return lista.size
     }
 
-    //onBindViewHolder é chamado na vinculação do viewHolder
+    //onBindViewHolder é chamado na vinculação dos dados para a visualização
     override fun onBindViewHolder(holder: CategoriasViewHolder, position: Int) {
 
         //Aqui estamos atribuindo a posição da lista, que inicialmente é uma string
         //para a variável nome. Em seguida vamos inserir esse valor na textView do itemCategoria que inflamos
-        val nome = lista[position]
-        holder.nomeCategoria.text = nome
+        val categoria = lista[position]
+        holder.nomeCategoria.text = categoria.nome
+        holder.valorCategoria.text = categoria.valor
     }
 
 }
