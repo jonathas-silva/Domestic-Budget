@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
@@ -28,9 +29,17 @@ class CategoriasFragment : Fragment() {
             false
         )
 
+        //LISTA APENAS PARA TESTE DO ADAPTER.
+        //PARA PROD SERÁ UTILIZADO O BANCO DE DADOS, QUE SERÁ IMPLEMENTADO POSTERIORMENTE
+        val lista = listOf<String>("Alimentação", "Rolê", "Casa", "Farmácia", "Combustível")
+
+
         rvCategorias = view.findViewById(R.id.recyclerCategorias)
         btnNovaCategoria = view.findViewById(R.id.btnNovaCategoria)
-        
+
+        rvCategorias.adapter = CategoriasAdapter(lista)
+        rvCategorias.layoutManager = LinearLayoutManager(activity)
+
         btnNovaCategoria.setOnClickListener {
             Toast.makeText(activity, "clicado", Toast.LENGTH_SHORT).show()
         }
