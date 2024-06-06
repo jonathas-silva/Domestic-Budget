@@ -38,7 +38,12 @@ class GastosAdapter(
     }
 
     override fun onBindViewHolder(holder: GastosViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val gasto = lista[position]
+
+        holder.descricao.text = gasto.descricao
+        holder.valor.text = gasto.valor.toString()
+        holder.data.text = gasto.data
+
     }
 
 
