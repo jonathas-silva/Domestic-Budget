@@ -40,8 +40,12 @@ class GastosAdapter(
     override fun onBindViewHolder(holder: GastosViewHolder, position: Int) {
         val gasto = lista[position]
 
+        fun Double.format(): String {
+            return String.format("%.2f", this).replace('.', ',')
+        }
+
         holder.descricao.text = gasto.descricao
-        holder.valor.text = gasto.valor.toString()
+        holder.valor.text = "R$ ${gasto.valor.format()}"
         holder.data.text = gasto.data
 
     }
