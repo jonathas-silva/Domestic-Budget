@@ -40,6 +40,7 @@ class GastosAdapter(
     override fun onBindViewHolder(holder: GastosViewHolder, position: Int) {
         val gasto = lista[position]
 
+        //belíssimo código para formatar a exibição do número float no RV
         fun Double.format(): String {
             return String.format("%.2f", this).replace('.', ',')
         }
