@@ -21,6 +21,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
+            app:prefixText="@string/currency"
+            app:endIconMode="clear_text"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -41,6 +43,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
+            app:endIconMode="clear_text"
             app:layout_constraintTop_toBottomOf="@+id/containerValor">
 
             <com.google.android.material.textfield.TextInputEditText
