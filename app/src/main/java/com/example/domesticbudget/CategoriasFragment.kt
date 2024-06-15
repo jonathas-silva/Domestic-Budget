@@ -2,6 +2,7 @@ package com.example.domesticbudget
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ class CategoriasFragment : Fragment() {
     private lateinit var mContext: Context
     private lateinit var rvCategorias: RecyclerView
     private lateinit var btnNovaCategoria: Button
+    private lateinit var btnListar: Button
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -52,6 +54,7 @@ class CategoriasFragment : Fragment() {
 
         rvCategorias = view.findViewById(R.id.recyclerCategorias)
         btnNovaCategoria = view.findViewById(R.id.btnNovaCategoria)
+        btnListar = view.findViewById(R.id.btnListar)
 
         rvCategorias.adapter = CategoriasAdapter(lista)
         rvCategorias.layoutManager = LinearLayoutManager(activity)
@@ -66,6 +69,15 @@ class CategoriasFragment : Fragment() {
             } else {
                 Toast.makeText(mContext, "deu erro na inserção", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        btnListar.setOnClickListener {
+            var listaCategorias = emptyList<Categoria>()
+
+            val categoriaDAO = CategoriaDAO(mContext)
+            listaCategorias = categoriaDAO.listar()
+
+            Log.i("info_db", listaCategorias.toString())
         }
 
         return view
