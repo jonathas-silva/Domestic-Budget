@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.domesticbudget.model.Categoria
 
 class CategoriasAdapter (
     private val lista: List<Categoria>

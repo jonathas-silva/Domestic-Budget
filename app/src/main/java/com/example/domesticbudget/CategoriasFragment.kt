@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domesticbudget.model.Categoria
 
 
 //R.layout.fragment_categorias
@@ -32,11 +33,11 @@ class CategoriasFragment : Fragment() {
         //LISTA APENAS PARA TESTE DO ADAPTER.
         //PARA PROD SERÁ UTILIZADO O BANCO DE DADOS, QUE SERÁ IMPLEMENTADO POSTERIORMENTE
         val lista = listOf<Categoria>(
-            Categoria("Alimentação", "R$ 500,00"),
-            Categoria("Rolê", "R$ 350,00"),
-            Categoria("Farmácia", "R$ 150,00"),
-            Categoria("Pets", "R$ 275,00"),
-            Categoria("Casa", "R$ 200,00")
+            Categoria(1,"Alimentação", "R$ 500,00"),
+            Categoria(2,"Rolê", "R$ 350,00"),
+            Categoria(3,"Farmácia", "R$ 150,00"),
+            Categoria(4,"Pets", "R$ 275,00"),
+            Categoria(5,"Casa", "R$ 200,00")
         )
 
 
