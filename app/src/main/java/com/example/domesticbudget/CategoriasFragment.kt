@@ -23,6 +23,14 @@ class CategoriasFragment : Fragment() {
     private lateinit var btnNovaCategoria: Button
     private lateinit var btnListar: Button
 
+    /*Estamos configurando o adapter aqui em cima, pra
+    * não precisar passar a lista de categorias como parâmetro na construção do adapter.
+    * Isso faria com que fosse necessário recosntruir o RV para qualquer atualização da lista,
+    * o que consumiria muitos recursos computacionais. Ao invés disso vamos apenas atualizar o adapter.*/
+    private var categoriaAdapter: CategoriasAdapter? = null
+
+    private var listaCategorias: List<Categoria> = emptyList()
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
@@ -56,7 +64,9 @@ class CategoriasFragment : Fragment() {
         btnNovaCategoria = view.findViewById(R.id.btnNovaCategoria)
         btnListar = view.findViewById(R.id.btnListar)
 
-        rvCategorias.adapter = CategoriasAdapter(lista)
+        //Inflação do RecyclerView
+        categoriaAdapter = CategoriasAdapter()
+        rvCategorias.adapter = categoriaAdapter
         rvCategorias.layoutManager = LinearLayoutManager(activity)
 
         btnNovaCategoria.setOnClickListener {
@@ -82,6 +92,14 @@ class CategoriasFragment : Fragment() {
 
         return view
 
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        val categoriaDAO = CategoriaDAO(mContext)
+        listaCategorias = categoriaDAO.listar()
+        categoriaAdapter?.recarregarLista(listaCategorias)
     }
 
 

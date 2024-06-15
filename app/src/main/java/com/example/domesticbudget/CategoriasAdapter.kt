@@ -9,8 +9,14 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.domesticbudget.model.Categoria
 
 class CategoriasAdapter (
-    private val lista: List<Categoria>
+    //private val lista: List<Categoria>
 ): Adapter<CategoriasAdapter.CategoriasViewHolder>() {
+
+    private var listaCategorias: List<Categoria> = emptyList()
+    fun recarregarLista(lista: List<Categoria>){
+        this.listaCategorias = lista
+        notifyDataSetChanged()
+    }
 
     inner class CategoriasViewHolder(
         private val itemView: View
@@ -39,7 +45,7 @@ class CategoriasAdapter (
     }
 
     override fun getItemCount(): Int {
-        return lista.size
+        return listaCategorias.size
     }
 
     //onBindViewHolder é chamado na vinculação dos dados para a visualização
@@ -47,9 +53,9 @@ class CategoriasAdapter (
 
         //Aqui estamos atribuindo a posição da lista, que inicialmente é uma string
         //para a variável nome. Em seguida vamos inserir esse valor na textView do itemCategoria que inflamos
-        val categoria = lista[position]
+        val categoria = listaCategorias[position]
         holder.nomeCategoria.text = categoria.nome
-        holder.valorCategoria.text = categoria.valor
+        holder.valorCategoria.text = categoria.idCategoria.toString()
     }
 
 }
