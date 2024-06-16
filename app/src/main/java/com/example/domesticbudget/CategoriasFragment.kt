@@ -94,12 +94,19 @@ class CategoriasFragment : Fragment() {
 
     }
 
-
-    override fun onStart() {
-        super.onStart()
+/*  Sempre que for necessário atualizar o RV de categorias, chamamos essa função.
+    Ela busca a lista de categorias mais atual do banco de dados, instancia um adapter,
+    passa essa lista atualizada para o RV e notifica o RV que os dados mudaram, para que as
+    alterações mais recentes sejam recarregadas*/
+    private fun atualizarRVCategorias() {
         val categoriaDAO = CategoriaDAO(mContext)
         listaCategorias = categoriaDAO.listar()
         categoriaAdapter?.recarregarLista(listaCategorias)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        atualizarRVCategorias()
     }
 
 
