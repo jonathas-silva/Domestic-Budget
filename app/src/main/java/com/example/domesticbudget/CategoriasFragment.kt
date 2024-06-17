@@ -1,6 +1,8 @@
 package com.example.domesticbudget
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,7 +23,6 @@ class CategoriasFragment : Fragment() {
     private lateinit var mContext: Context
     private lateinit var rvCategorias: RecyclerView
     private lateinit var btnNovaCategoria: Button
-    private lateinit var btnListar: Button
 
     /*Estamos configurando o adapter aqui em cima, pra
     * não precisar passar a lista de categorias como parâmetro na construção do adapter.
@@ -62,7 +63,7 @@ class CategoriasFragment : Fragment() {
 
         rvCategorias = view.findViewById(R.id.recyclerCategorias)
         btnNovaCategoria = view.findViewById(R.id.btnNovaCategoria)
-        btnListar = view.findViewById(R.id.btnListar)
+
 
         //Inflação do RecyclerView
         categoriaAdapter = CategoriasAdapter()
@@ -70,39 +71,28 @@ class CategoriasFragment : Fragment() {
         rvCategorias.layoutManager = LinearLayoutManager(activity)
 
         btnNovaCategoria.setOnClickListener {
-            val novaCategoria = Categoria(
-                -1, "Nova tarefa inserida no BD", "500"
-            )
-            val categoraDAO = CategoriaDAO(mContext)
-            if (categoraDAO.salvar(novaCategoria)) {
-                Toast.makeText(mContext, "deu tudo certo na inserção", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(mContext, "deu erro na inserção", Toast.LENGTH_SHORT).show()
-            }
+
+            val intent = Intent(context,NovaCategoriaActivity::class.java)
+
+            startActivity(intent)
+
         }
 
-        btnListar.setOnClickListener {
-            var listaCategorias = emptyList<Categoria>()
-
-            val categoriaDAO = CategoriaDAO(mContext)
-            listaCategorias = categoriaDAO.listar()
-
-            Log.i("info_db", listaCategorias.toString())
-        }
 
         return view
 
     }
 
-/*  Sempre que for necessário atualizar o RV de categorias, chamamos essa função.
-    Ela busca a lista de categorias mais atual do banco de dados, instancia um adapter,
-    passa essa lista atualizada para o RV e notifica o RV que os dados mudaram, para que as
-    alterações mais recentes sejam recarregadas*/
+    /*  Sempre que for necessário atualizar o RV de categorias, chamamos essa função.
+        Ela busca a lista de categorias mais atual do banco de dados, instancia um adapter,
+        passa essa lista atualizada para o RV e notifica o RV que os dados mudaram, para que as
+        alterações mais recentes sejam recarregadas*/
     private fun atualizarRVCategorias() {
         val categoriaDAO = CategoriaDAO(mContext)
         listaCategorias = categoriaDAO.listar()
         categoriaAdapter?.recarregarLista(listaCategorias)
     }
+
 
     override fun onStart() {
         super.onStart()
