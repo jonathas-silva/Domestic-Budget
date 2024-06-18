@@ -1,12 +1,15 @@
 package com.example.domesticbudget
 
+import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.domesticbudget.databinding.ActivityNovaCategoriaBinding
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 
 /*acitivity para adição de nova categoria e edição de categorias existentes
@@ -31,6 +34,17 @@ class NovaCategoriaActivity : AppCompatActivity() {
 
         inicializarToolbar()
 
+        /*        binding.inputDataTermino.setOnFocusChangeListener { v, hasFocus ->
+                    if (hasFocus) {
+                        mostrarDataPicker()
+                    }
+                }*/
+
+        binding.containerDataTermino.setStartIconOnClickListener {
+            mostrarDataPicker()
+        }
+
+
     }
 
     private fun inicializarToolbar() {
@@ -46,4 +60,36 @@ class NovaCategoriaActivity : AppCompatActivity() {
         setSupportActionBar(binding.novaCategoriaToolbar.tbPrincipal)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
+
+    private fun mostrarDataPicker() {
+
+        val c = Calendar.getInstance()
+
+        //esses valores serão os recuperados como padrão no momento que o picker abrir
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            this,
+            { _, y, monthOfYear, dayOfMonth ->
+
+                //recuperando a data recebida
+                val dataRecebida = Calendar.getInstance()
+                dataRecebida.set(y, monthOfYear, dayOfMonth)
+
+                //formatando a data recebida
+                val formatador = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val dataFormatada = formatador.format(dataRecebida.time)
+
+                binding.inputDataTermino.setText(dataFormatada)
+            },
+            year,
+            month,
+            day
+        )
+
+        datePickerDialog.show()
+    }
 }
+

@@ -72,7 +72,7 @@ class CategoriasFragment : Fragment() {
 
         btnNovaCategoria.setOnClickListener {
 
-            val intent = Intent(context,NovaCategoriaActivity::class.java)
+            val intent = Intent(context, NovaCategoriaActivity::class.java)
 
             startActivity(intent)
 

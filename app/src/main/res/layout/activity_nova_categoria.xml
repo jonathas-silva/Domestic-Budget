@@ -70,12 +70,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/containerOrcamento">
+        app:layout_constraintTop_toBottomOf="@+id/containerOrcamento"
+        app:startIconDrawable="@drawable/ic_calendar">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputDataTermino"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
+            android:clickable="false"
             android:inputType="datetime|date" />
     </com.google.android.material.textfield.TextInputLayout>
 
