@@ -70,6 +70,7 @@ class CategoriasFragment : Fragment() {
         rvCategorias.adapter = categoriaAdapter
         rvCategorias.layoutManager = LinearLayoutManager(activity)
 
+        //Este botão apenas abre activity de nova categoria, sem passar nada.
         btnNovaCategoria.setOnClickListener {
 
             val intent = Intent(context, NovaCategoriaActivity::class.java)

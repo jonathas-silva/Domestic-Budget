@@ -2,11 +2,14 @@ package com.example.domesticbudget
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.domesticbudget.database.CategoriaDAO
 import com.example.domesticbudget.databinding.ActivityNovaCategoriaBinding
+import com.example.domesticbudget.model.Categoria
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -44,6 +47,21 @@ class NovaCategoriaActivity : AppCompatActivity() {
             mostrarDataPicker()
         }
 
+        binding.btnSalvar.setOnClickListener {
+            val novaCategoria = Categoria(
+                -1,
+                binding.inputNome.text.toString(),
+                binding.inputOrcamento.text.toString()
+            )
+
+            //vamos tentar salvar
+            val categoriaDAO = CategoriaDAO(this)
+            if(categoriaDAO.salvar(novaCategoria)){
+                Toast.makeText(this, "Categoria salva com sucesso!", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Erro ao salvar categoria!", Toast.LENGTH_SHORT).show()
+            }
+        }
 
     }
 
@@ -70,6 +88,8 @@ class NovaCategoriaActivity : AppCompatActivity() {
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
+        //Dialog para mostrar o data picker.
+        //Guardar modelo, muitíssimo útil
         val datePickerDialog = DatePickerDialog(
             this,
             { _, y, monthOfYear, dayOfMonth ->
