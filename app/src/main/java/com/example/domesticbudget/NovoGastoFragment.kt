@@ -1,12 +1,15 @@
 package com.example.domesticbudget
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import com.example.domesticbudget.database.CategoriaDAO
+import com.example.domesticbudget.model.Categoria
 import com.google.android.material.textfield.TextInputLayout
 
 class NovoGastoFragment : Fragment() {
@@ -23,10 +26,23 @@ class NovoGastoFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 
+        //vamos recuperar dinamicamente as categorias cadastradas e inserir no dropdown
+        //IMPORTANTE NOTAR QUE ESSA ATUALIZAÇÃO SERÁ FEITA SEMPRE QUE A VIEW FOR CRIADA!!
+        //Refletir sobre a necessidade (ou não) de colocar esse método dentro de outro ciclo de vida
+        val categoriaDAO = CategoriaDAO(requireContext())
+        val listaDeCategorias = categoriaDAO.listar()
+        val listaNomesCategorias = ArrayList<String>()
+
+        listaDeCategorias.forEach { categoria ->
+
+            listaNomesCategorias.add(categoria.nome)
+
+        }
+        Log.i("info_db", listaNomesCategorias.toString())
 
         //Vamos povoar o dropdown menu de categorias com as categorias
         //Num primeiro momento estaticamente, e depois de forma dinâmica acessando o banco de dados
-        val items = listOf("Alimentação", "Casa", "Pets", "Rolê")
+        //val items = listOf("Alimentação", "Casa", "Pets", "Rolê")
 
 
         val view = inflater.inflate(R.layout.fragment_novo_gasto, container, false)
@@ -41,7 +57,7 @@ class NovoGastoFragment : Fragment() {
         * context*/
         val adapter = ArrayAdapter(
             requireContext(),
-            R.layout.list_item, items
+            R.layout.list_item, listaNomesCategorias
         )
         inputCategoria.setAdapter(adapter)
 

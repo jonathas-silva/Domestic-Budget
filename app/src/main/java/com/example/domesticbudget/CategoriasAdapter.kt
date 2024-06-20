@@ -80,7 +80,10 @@ class CategoriasAdapter(
     * Essa função calcula a diferença entre duas datas, e depende diretamente que as
     * entradas fornecidas sejam strings estritamente no formado dd/MM/YYYY.
     * É preciso se certificar que o banco de dados só aceite esse formato e que o usuário
-    * consiga inserir apenas datas nesse formato!*/
+    * consiga inserir apenas datas nesse formato!
+    *
+    * A primeira medida, mais óbvia, foi desativar o input de tempo, para que o usuário não consiga digitar,
+    * mas apenas selecionar uma data, que será formatada pela função própria em NovaCategoriaActivity*/
     private fun calcularEntreDatas(data: String): String {
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
