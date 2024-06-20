@@ -83,7 +83,7 @@ class CategoriasFragment : Fragment() {
         categoriaAdapter?.recarregarLista(listaCategorias)
     }
 
-
+    //A lista será atualizada sempre no ciclo de vida onStart, ou seja, sempre que retornarmos à tela
     override fun onStart() {
         super.onStart()
         atualizarRVCategorias()

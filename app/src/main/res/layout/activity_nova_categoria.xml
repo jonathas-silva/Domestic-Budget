@@ -79,6 +79,7 @@
             android:layout_height="wrap_content"
 
             android:clickable="false"
+            android:enabled="false"
             android:inputType="datetime|date" />
     </com.google.android.material.textfield.TextInputLayout>
 

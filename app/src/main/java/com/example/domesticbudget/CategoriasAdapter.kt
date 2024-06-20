@@ -7,6 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.domesticbudget.model.Categoria
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class CategoriasAdapter(
     //private val lista: List<Categoria>
@@ -67,8 +72,29 @@ class CategoriasAdapter(
 
         holder.nomeCategoria.text = categoria.nome
         holder.valorCategoria.text = "R$ ${categoria.valor.format()}"
-        holder.periodo.text = categoria.periodo
+        holder.periodo.text = calcularEntreDatas(categoria.periodo)
         holder.valorRestante.text = "Restam R$ ${restante.format()}"
+    }
+
+    /*AVISO IMPORTANTE!!!!!!!!!!
+    * Essa função calcula a diferença entre duas datas, e depende diretamente que as
+    * entradas fornecidas sejam strings estritamente no formado dd/MM/YYYY.
+    * É preciso se certificar que o banco de dados só aceite esse formato e que o usuário
+    * consiga inserir apenas datas nesse formato!*/
+    private fun calcularEntreDatas(data: String): String {
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+        //Dei preferencia para getInstance() ao invés de Date() para minimizar discrepâncias
+        val currentDate = sdf.format(Calendar.getInstance().timeInMillis)
+        //val currentDate = sdf.format(Date())
+
+        //Agora vamos converter as duas datas que estão no mesmo formato e comparar
+        val hoje: Date = sdf.parse(currentDate) as Date
+        val prazo: Date = sdf.parse(data) as Date
+
+        val diferenca = prazo.time - hoje.time
+
+        return TimeUnit.MILLISECONDS.toDays(diferenca).toString()
     }
 
 }

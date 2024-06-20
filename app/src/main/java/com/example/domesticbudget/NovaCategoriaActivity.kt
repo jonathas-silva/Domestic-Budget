@@ -2,6 +2,7 @@ package com.example.domesticbudget
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -57,9 +58,10 @@ class NovaCategoriaActivity : AppCompatActivity() {
 
             //vamos tentar salvar
             val categoriaDAO = CategoriaDAO(this)
-            if(categoriaDAO.salvar(novaCategoria)){
+            if (categoriaDAO.salvar(novaCategoria)) {
                 Toast.makeText(this, "Categoria salva com sucesso!", Toast.LENGTH_SHORT).show()
-            }else{
+                finish()
+            } else {
                 Toast.makeText(this, "Erro ao salvar categoria!", Toast.LENGTH_SHORT).show()
             }
         }
@@ -84,6 +86,7 @@ class NovaCategoriaActivity : AppCompatActivity() {
 
         val c = Calendar.getInstance()
 
+
         //esses valores serão os recuperados como padrão no momento que o picker abrir
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
@@ -98,6 +101,8 @@ class NovaCategoriaActivity : AppCompatActivity() {
                 //recuperando a data recebida
                 val dataRecebida = Calendar.getInstance()
                 dataRecebida.set(y, monthOfYear, dayOfMonth)
+
+                Log.i("info_datas", dataRecebida.timeInMillis.toString())
 
                 //formatando a data recebida
                 val formatador = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
