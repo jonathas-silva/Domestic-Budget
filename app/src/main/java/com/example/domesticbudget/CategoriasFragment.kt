@@ -50,17 +50,6 @@ class CategoriasFragment : Fragment() {
             false
         )
 
-        //LISTA APENAS PARA TESTE DO ADAPTER.
-        //PARA PROD SERÁ UTILIZADO O BANCO DE DADOS, QUE SERÁ IMPLEMENTADO POSTERIORMENTE
-        val lista = listOf<Categoria>(
-            Categoria(1, "Alimentação", "R$ 500,00"),
-            Categoria(2, "Rolê", "R$ 350,00"),
-            Categoria(3, "Farmácia", "R$ 150,00"),
-            Categoria(4, "Pets", "R$ 275,00"),
-            Categoria(5, "Casa", "R$ 200,00")
-        )
-
-
         rvCategorias = view.findViewById(R.id.recyclerCategorias)
         btnNovaCategoria = view.findViewById(R.id.btnNovaCategoria)
 

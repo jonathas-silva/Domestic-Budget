@@ -51,7 +51,8 @@ class NovaCategoriaActivity : AppCompatActivity() {
             val novaCategoria = Categoria(
                 -1,
                 binding.inputNome.text.toString(),
-                binding.inputOrcamento.text.toString()
+                binding.inputOrcamento.text.toString().toDouble(),
+                binding.inputDataTermino.text.toString()
             )
 
             //vamos tentar salvar

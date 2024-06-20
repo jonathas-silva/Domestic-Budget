@@ -15,6 +15,9 @@ class CategoriaDAO(context: Context) : ICategoriasDAO {
 
         val conteudos = ContentValues()
         conteudos.put(DatabaseHelper.COLUNA_CATEGORIAS_NOME, categoria.nome)
+        conteudos.put(DatabaseHelper.COLUNA_CATEGORIAS_VALOR, categoria.valor)
+        conteudos.put(DatabaseHelper.COLUNA_CATEGORIAS_PERIODO, categoria.periodo)
+
 
         try {
             escrita.insert(
@@ -49,14 +52,17 @@ class CategoriaDAO(context: Context) : ICategoriasDAO {
         //indices da tabela
         val indiceId = cursor.getColumnIndex(DatabaseHelper.COLUNA_CATEGORIAS_ID)
         val nomeId = cursor.getColumnIndex(DatabaseHelper.COLUNA_CATEGORIAS_NOME)
-
+        val valorId = cursor.getColumnIndex(DatabaseHelper.COLUNA_CATEGORIAS_VALOR)
+        val periodoId = cursor.getColumnIndex(DatabaseHelper.COLUNA_CATEGORIAS_PERIODO)
 
 
         while (cursor.moveToNext()) {
             val idCategoria = cursor.getInt(indiceId)
             val descricao = cursor.getString(nomeId)
+            val valor = cursor.getDouble(valorId)
+            val periodo = cursor.getString(periodoId)
             listaCategorias.add(
-                Categoria(idCategoria, descricao, "200")
+                Categoria(idCategoria, descricao, valor, periodo)
             )
         }
 

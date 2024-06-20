@@ -18,12 +18,21 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, NOME_BANCO_DA
         //colunas da tabela categorias
         const val COLUNA_CATEGORIAS_ID = "id"
         const val COLUNA_CATEGORIAS_NOME = "nome"
+        const val COLUNA_CATEGORIAS_VALOR = "valor"
+        const val COLUNA_CATEGORIAS_PERIODO = "periodo"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        val sql =   "CREATE TABLE $NOME_TABELA_CATEGORIAS (\n" +
+        val antigoSql =   "CREATE TABLE $NOME_TABELA_CATEGORIAS (\n" +
                     "$COLUNA_CATEGORIAS_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n" +
                     "$COLUNA_CATEGORIAS_NOME VARCHAR(100) NOT NULL);"
+
+        val sql =   "CREATE TABLE $NOME_TABELA_CATEGORIAS (\n" +
+                    "$COLUNA_CATEGORIAS_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n" +
+                    "$COLUNA_CATEGORIAS_NOME VARCHAR(100) NOT NULL,\n" +
+                    "$COLUNA_CATEGORIAS_VALOR NUMERIC(1000000,2) NOT NULL,\n" +
+                    "$COLUNA_CATEGORIAS_PERIODO VARCHAR(100)\n" +
+                    "  );"
 
         try {
             db?.execSQL(sql)
