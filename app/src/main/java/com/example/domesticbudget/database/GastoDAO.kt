@@ -39,7 +39,22 @@ class GastoDAO(context: Context) : IGastoDAO {
     }
 
     override fun deletar(indice: Int): Boolean {
-        TODO("Not yet implemented")
+
+        //Argumentos para deletar na tabela
+        val args = arrayOf(indice.toString())
+
+        try {
+            escrita.delete(
+                DatabaseHelper.NOME_TABELA_GASTOS,
+                "${DatabaseHelper.COLUNA_GASTOS_ID} = ?",
+                args
+            )
+            Log.i("info_db", "Sucesso ao excluir gasto")
+        }catch (e: Exception){
+            Log.e("info_db", "Erro ao excluir gasto")
+            return false
+        }
+        return true
     }
 
     override fun listar(): List<Gasto> {
