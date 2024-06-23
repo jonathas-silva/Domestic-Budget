@@ -3,16 +3,23 @@ package com.example.domesticbudget
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.domesticbudget.model.Gasto
 
 //
 
 class GastosAdapter(
-    private val lista: List<Gasto>
+
 ) : RecyclerView.Adapter<GastosAdapter.GastosViewHolder>() {
+
+    private var listaDeGastos : List<Gasto> = emptyList()
+
+    fun recarregarListaDeGastos(lista: List<Gasto>){
+        this.listaDeGastos = lista
+        notifyDataSetChanged()
+    }
 
     inner class GastosViewHolder(
         private val itemView: View
@@ -34,11 +41,11 @@ class GastosAdapter(
     }
 
     override fun getItemCount(): Int {
-        return lista.size
+        return listaDeGastos.size
     }
 
     override fun onBindViewHolder(holder: GastosViewHolder, position: Int) {
-        val gasto = lista[position]
+        val gasto = listaDeGastos[position]
 
         //belíssimo código para formatar a exibição do número float no RV
         fun Double.format(): String {
@@ -50,6 +57,5 @@ class GastosAdapter(
         holder.data.text = gasto.data
 
     }
-
 
 }

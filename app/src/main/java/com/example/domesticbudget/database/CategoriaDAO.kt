@@ -70,4 +70,5 @@ class CategoriaDAO(context: Context) : ICategoriasDAO {
         return listaCategorias
 
     }
+
 }

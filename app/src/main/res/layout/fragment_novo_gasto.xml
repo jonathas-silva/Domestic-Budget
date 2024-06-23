@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/containerNome"
+            android:id="@+id/containerValor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -26,14 +26,14 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputNome"
+                android:id="@+id/inputValor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number|numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/containerOrcamento"
+            android:id="@+id/containerDescricao"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -44,16 +44,17 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:endIconMode="clear_text"
-            app:layout_constraintTop_toBottomOf="@+id/containerNome">
+            app:layout_constraintTop_toBottomOf="@+id/containerValor">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputDescricao"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout2"
+            android:id="@+id/containerCategoria"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -65,7 +66,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/containerOrcamento">
+            app:layout_constraintTop_toBottomOf="@+id/containerDescricao">
 
             <AutoCompleteTextView
                 android:id="@+id/inputCategoria"
@@ -87,7 +88,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+            app:layout_constraintTop_toBottomOf="@+id/containerCategoria" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

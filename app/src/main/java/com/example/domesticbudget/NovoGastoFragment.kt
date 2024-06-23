@@ -8,13 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Button
+import android.widget.Toast
 import com.example.domesticbudget.database.CategoriaDAO
-import com.example.domesticbudget.model.Categoria
-import com.google.android.material.textfield.TextInputLayout
+import com.example.domesticbudget.database.GastoDAO
+import com.example.domesticbudget.model.Gasto
+import com.google.android.material.textfield.TextInputEditText
 
 class NovoGastoFragment : Fragment() {
 
     private lateinit var inputCategoria: AutoCompleteTextView
+    private lateinit var btnSalvar: Button
+    private lateinit var inputValor: TextInputEditText
+    private lateinit var inputDescricao: TextInputEditText
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,10 +39,12 @@ class NovoGastoFragment : Fragment() {
         val categoriaDAO = CategoriaDAO(requireContext())
         val listaDeCategorias = categoriaDAO.listar()
         val listaNomesCategorias = ArrayList<String>()
+        val listaDeIndices = ArrayList<Int>()
 
         listaDeCategorias.forEach { categoria ->
 
             listaNomesCategorias.add(categoria.nome)
+            listaDeIndices.add(categoria.idCategoria)
 
         }
         Log.i("info_db", listaNomesCategorias.toString())
@@ -49,7 +58,40 @@ class NovoGastoFragment : Fragment() {
 
 
         inputCategoria = view.findViewById(R.id.inputCategoria)
+        btnSalvar = view.findViewById(R.id.btnSalvar)
+        inputValor = view.findViewById(R.id.inputValor)
+        inputDescricao = view.findViewById(R.id.inputDescricao)
 
+
+        btnSalvar.setOnClickListener {
+
+            //a variável num armazena índice que a categoria selecionada está
+            //que é o mesmo indice que o Id do BD daquela categoria está armazenado
+            //logo, com essa informação sabemos qual id representa aquela categoria no BD
+            val num = listaNomesCategorias.indexOf(inputCategoria.text.toString())
+            var indiceCategoria = -1
+
+            if (num != -1) {
+                indiceCategoria = listaDeIndices[num]
+                //Vamos montar o objeto e adicioná-lo
+                val novoGasto = Gasto(
+                    -1,
+                    inputValor.text.toString().toDouble(),
+                    inputDescricao.text.toString(),
+                    indiceCategoria,
+                    "12/01/2024"
+                )
+                val gastoDAO = GastoDAO(requireContext())
+                if (gastoDAO.salvar(novoGasto)){
+                    Toast.makeText(requireContext(), "Gasto inserido com sucesso!", Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(requireContext(), "Ocorreu um erro na inserção de gasto!", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+
+            Log.i("info_db", indiceCategoria.toString())
+        }
 
         /*Importante deixar registrado que estava enfrentando um erro para setar esse adapter
         * devido a não estar conseguindo indicar o context no fragment. O mais complexo é que o
