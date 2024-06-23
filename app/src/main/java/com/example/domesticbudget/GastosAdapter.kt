@@ -1,17 +1,20 @@
 package com.example.domesticbudget
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.domesticbudget.database.GastoDAO
 import com.example.domesticbudget.model.Gasto
 
 //
 
 class GastosAdapter(
-
+    val context: Context
 ) : RecyclerView.Adapter<GastosAdapter.GastosViewHolder>() {
 
     private var listaDeGastos : List<Gasto> = emptyList()
@@ -27,6 +30,7 @@ class GastosAdapter(
         val descricao: TextView = itemView.findViewById(R.id.textDescricao)
         val valor: TextView = itemView.findViewById(R.id.textValor)
         val data: TextView = itemView.findViewById(R.id.textData)
+        val container: ConstraintLayout = itemView.findViewById(R.id.containerCard)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GastosViewHolder {
@@ -55,6 +59,11 @@ class GastosAdapter(
         holder.descricao.text = gasto.descricao
         holder.valor.text = "R$ ${gasto.valor.format()}"
         holder.data.text = gasto.data
+
+        holder.container.setOnClickListener {
+            val gastoDAO = GastoDAO(context)
+            gastoDAO.deletar(position)
+        }
 
     }
 

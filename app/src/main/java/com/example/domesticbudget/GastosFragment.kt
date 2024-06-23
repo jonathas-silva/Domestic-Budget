@@ -28,7 +28,7 @@ class GastosFragment : Fragment() {
         rvGastos = view.findViewById(R.id.recyclerGastos)
 
         //definindo o adapter
-        gastosAdapter = GastosAdapter()
+        gastosAdapter = GastosAdapter(requireContext())
         rvGastos.adapter = gastosAdapter
         rvGastos.layoutManager = LinearLayoutManager(activity)
 
