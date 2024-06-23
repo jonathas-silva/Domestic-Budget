@@ -14,12 +14,12 @@ import com.example.domesticbudget.model.Gasto
 //
 
 class GastosAdapter(
-    val context: Context
+    val onClickExcluir: (Int) -> Unit
 ) : RecyclerView.Adapter<GastosAdapter.GastosViewHolder>() {
 
-    private var listaDeGastos : List<Gasto> = emptyList()
+    private var listaDeGastos: List<Gasto> = emptyList()
 
-    fun recarregarListaDeGastos(lista: List<Gasto>){
+    fun recarregarListaDeGastos(lista: List<Gasto>) {
         this.listaDeGastos = lista
         notifyDataSetChanged()
     }
@@ -61,9 +61,9 @@ class GastosAdapter(
         holder.data.text = gasto.data
 
         holder.container.setOnClickListener {
-            val gastoDAO = GastoDAO(context)
-            gastoDAO.deletar(position)
+            onClickExcluir(gasto.idGasto)
         }
+
 
     }
 

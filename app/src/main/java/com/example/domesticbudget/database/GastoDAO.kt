@@ -49,8 +49,8 @@ class GastoDAO(context: Context) : IGastoDAO {
                 "${DatabaseHelper.COLUNA_GASTOS_ID} = ?",
                 args
             )
-            Log.i("info_db", "Sucesso ao excluir gasto")
-        }catch (e: Exception){
+            Log.i("info_db", "Sucesso ao excluir gasto $indice")
+        } catch (e: Exception) {
             Log.e("info_db", "Erro ao excluir gasto")
             return false
         }
@@ -80,7 +80,7 @@ class GastoDAO(context: Context) : IGastoDAO {
             val categoria = cursor.getInt(categoriaId)
             val data = cursor.getString(dataId)
             listaDeGastos.add(
-                Gasto(idGasto,valor,descricao,categoria,data)
+                Gasto(idGasto, valor, descricao, categoria, data)
             )
         }
 
