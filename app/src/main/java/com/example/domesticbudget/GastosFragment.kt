@@ -1,15 +1,12 @@
 package com.example.domesticbudget
-
-import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
-import androidx.compose.material3.AlertDialog
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domesticbudget.database.GastoDAO
@@ -36,6 +33,7 @@ class GastosFragment : Fragment() {
         }
         rvGastos.adapter = gastosAdapter
         rvGastos.layoutManager = LinearLayoutManager(activity)
+        itemTouchHelper.attachToRecyclerView(rvGastos)
 
         /*ATENÇÃO PARA O ERRO!
         * O procedimento correto, que pode resultar em um erro difícil de identificar caso não seja seguido, é:
@@ -46,7 +44,9 @@ class GastosFragment : Fragment() {
 
 
         return view
+
     }
+
 
     private fun confirmarExclusao(id: Int) {
 
@@ -72,5 +72,21 @@ class GastosFragment : Fragment() {
         Log.i("info_db", listaDeGastos.toString())
         gastosAdapter?.recarregarListaDeGastos(listaDeGastos)
     }
+
+    private val itemTouchHelper =
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                Toast.makeText(requireContext(), "ITEM DELETADO!", Toast.LENGTH_SHORT).show()
+            }
+
+        })
 
 }

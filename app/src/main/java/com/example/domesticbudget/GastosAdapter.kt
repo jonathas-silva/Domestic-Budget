@@ -61,7 +61,7 @@ class GastosAdapter(
         holder.data.text = gasto.data
 
         holder.container.setOnClickListener {
-            onClickExcluir(gasto.idGasto)
+            //onClickExcluir(gasto.idGasto)
         }
 
 
