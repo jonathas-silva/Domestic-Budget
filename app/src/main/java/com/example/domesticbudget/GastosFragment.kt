@@ -1,16 +1,17 @@
 package com.example.domesticbudget
+
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domesticbudget.database.GastoDAO
 import com.example.domesticbudget.model.Gasto
+import com.google.android.material.snackbar.Snackbar
 
 class GastosFragment : Fragment() {
 
@@ -69,7 +70,6 @@ class GastosFragment : Fragment() {
     private fun atualizarRVGastos() {
         val gastoDAO = GastoDAO(requireContext())
         listaDeGastos = gastoDAO.listar()
-        Log.i("info_db", listaDeGastos.toString())
         gastosAdapter?.recarregarListaDeGastos(listaDeGastos)
     }
 
@@ -84,9 +84,39 @@ class GastosFragment : Fragment() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                Toast.makeText(requireContext(), "ITEM DELETADO!", Toast.LENGTH_SHORT).show()
-            }
 
+                val gastoDAO = GastoDAO(requireContext())
+
+                /*Estamos usando non-null assertion aqui por que temos certeza de que a variável
+                * gastosAdapter sempre será instanciada na criação da view, e nesse ponto da execução
+                * nunca será nula.
+                * Podemos posteriormente mudar a forma como essa variável é instanciada.*/
+                if (gastoDAO.deletar(gastosAdapter?.recuperarId(viewHolder.adapterPosition)!!)) {
+                    view?.let {
+                        Snackbar.make(
+                            it.findViewById(R.id.recyclerGastos),
+                            "Item deletado!",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    /*Para aproveitar a fluidez do material design da melhor maneira,
+                    * optei por utilizar a notifyItemRemoved ao invés de utilizar notifySetDataChanged.*/
+                    val novalistaDeGastos = gastoDAO.listar()
+                    gastosAdapter?.recarregarListaPorDelecao(
+                        novalistaDeGastos,
+                        viewHolder.adapterPosition //viewHolder.adapterPosition reflete a posição do item no RV
+                    )
+
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Erro ao tentar deletar gasto!",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            }
         })
 
 }

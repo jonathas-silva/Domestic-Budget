@@ -1,6 +1,5 @@
 package com.example.domesticbudget
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +7,6 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.domesticbudget.database.GastoDAO
 import com.example.domesticbudget.model.Gasto
 
 //
@@ -22,6 +20,11 @@ class GastosAdapter(
     fun recarregarListaDeGastos(lista: List<Gasto>) {
         this.listaDeGastos = lista
         notifyDataSetChanged()
+    }
+
+    fun recarregarListaPorDelecao(lista: List<Gasto>, position: Int) {
+        this.listaDeGastos = lista
+        notifyItemRemoved(position)
     }
 
     inner class GastosViewHolder(
@@ -65,6 +68,12 @@ class GastosAdapter(
         }
 
 
+    }
+
+    /*Recupera o índice do banco de dados a partir do índice do RV*/
+    fun recuperarId(position: Int): Int {
+        val gasto = listaDeGastos[position]
+        return gasto.idGasto
     }
 
 }

@@ -3,7 +3,6 @@ package com.example.domesticbudget.database
 import android.content.ContentValues
 import android.content.Context
 import android.util.Log
-import com.example.domesticbudget.model.Categoria
 import com.example.domesticbudget.model.Gasto
 
 class GastoDAO(context: Context) : IGastoDAO {
