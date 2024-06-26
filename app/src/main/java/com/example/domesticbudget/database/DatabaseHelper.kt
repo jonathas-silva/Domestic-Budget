@@ -29,6 +29,13 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, NOME_BANCO_DA
         const val COLUNA_GASTOS_DATA = "data"
     }
 
+    override fun onOpen(db: SQLiteDatabase?) {
+        super.onOpen(db)
+        if (!(db?.isReadOnly)!!){
+            db.execSQL("PRAGMA foreign_keys=ON;")
+        }
+    }
+
     override fun onCreate(db: SQLiteDatabase?) {
         val antigoSql = "CREATE TABLE $NOME_TABELA_CATEGORIAS (\n" +
                 "$COLUNA_CATEGORIAS_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n" +

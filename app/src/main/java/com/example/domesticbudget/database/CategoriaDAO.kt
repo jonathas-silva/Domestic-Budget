@@ -51,6 +51,7 @@ class CategoriaDAO(context: Context) : ICategoriasDAO {
             Log.i("info_db", "Sucesso ao deletar categoria!")
         } catch (e: Exception) {
             Log.e("info_db", "Erro ao deletar categoria!")
+
             return false
         }
         return true

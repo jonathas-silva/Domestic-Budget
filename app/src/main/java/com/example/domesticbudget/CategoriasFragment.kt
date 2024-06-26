@@ -117,13 +117,7 @@ class CategoriasFragment : Fragment() {
                         ).show()
                     }
 
-                    /*Para aproveitar a fluidez do material design da melhor maneira,
-                    * optei por utilizar a notifyItemRemoved ao invés de utilizar notifySetDataChanged.*/
-                    val novalistaDeGastos = categoriaDAO.listar()
-                    categoriaAdapter?.recarregarListaPorDelecao(
-                        novalistaDeGastos,
-                        viewHolder.adapterPosition //viewHolder.adapterPosition reflete a posição do item no RV
-                    )
+
 
                 } else {
                     Toast.makeText(
@@ -133,6 +127,12 @@ class CategoriasFragment : Fragment() {
                     )
                         .show()
                 }
+
+                val novalistaDeGastos = categoriaDAO.listar()
+                categoriaAdapter?.recarregarListaPorDelecao(
+                    novalistaDeGastos,
+                    viewHolder.adapterPosition //viewHolder.adapterPosition reflete a posição do item no RV
+                )
             }
         })
 

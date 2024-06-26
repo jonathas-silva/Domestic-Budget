@@ -100,14 +100,6 @@ class GastosFragment : Fragment() {
                         ).show()
                     }
 
-                    /*Para aproveitar a fluidez do material design da melhor maneira,
-                    * optei por utilizar a notifyItemRemoved ao invés de utilizar notifySetDataChanged.*/
-                    val novalistaDeGastos = gastoDAO.listar()
-                    gastosAdapter?.recarregarListaPorDelecao(
-                        novalistaDeGastos,
-                        viewHolder.adapterPosition //viewHolder.adapterPosition reflete a posição do item no RV
-                    )
-
                 } else {
                     Toast.makeText(
                         requireContext(),
@@ -116,6 +108,15 @@ class GastosFragment : Fragment() {
                     )
                         .show()
                 }
+                //A RV será atualizada tanto se der quanto se não der certo para evitar problemas de renderização
+                //da função onSwipea
+                /*Para aproveitar a fluidez do material design da melhor maneira,
+                 * optei por utilizar a notifyItemRemoved ao invés de utilizar notifySetDataChanged.*/
+                val novalistaDeGastos = gastoDAO.listar()
+                gastosAdapter?.recarregarListaPorDelecao(
+                    novalistaDeGastos,
+                    viewHolder.adapterPosition //viewHolder.adapterPosition reflete a posição do item no RV
+                )
             }
         })
 
