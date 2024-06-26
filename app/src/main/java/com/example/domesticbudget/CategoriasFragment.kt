@@ -1,20 +1,20 @@
 package com.example.domesticbudget
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domesticbudget.database.CategoriaDAO
 import com.example.domesticbudget.model.Categoria
+import com.google.android.material.snackbar.Snackbar
 
 
 //R.layout.fragment_categorias
@@ -58,6 +58,7 @@ class CategoriasFragment : Fragment() {
         categoriaAdapter = CategoriasAdapter()
         rvCategorias.adapter = categoriaAdapter
         rvCategorias.layoutManager = LinearLayoutManager(activity)
+        itemTouchHelper.attachToRecyclerView(rvCategorias)
 
         //Este botão apenas abre activity de nova categoria, sem passar nada.
         btnNovaCategoria.setOnClickListener {
@@ -88,6 +89,52 @@ class CategoriasFragment : Fragment() {
         super.onStart()
         atualizarRVCategorias()
     }
+
+    private val itemTouchHelper =
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
+                val categoriaDAO = CategoriaDAO(requireContext())
+
+                /*Estamos usando non-null assertion aqui por que temos certeza de que a variável
+                * gastosAdapter sempre será instanciada na criação da view, e nesse ponto da execução
+                * nunca será nula.
+                * Podemos posteriormente mudar a forma como essa variável é instanciada.*/
+                if (categoriaDAO.remover(categoriaAdapter?.recuperarId(viewHolder.adapterPosition)!!)) {
+                    view?.let {
+                        Snackbar.make(
+                            it.findViewById(R.id.recyclerCategorias),
+                            "Item deletado!",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    /*Para aproveitar a fluidez do material design da melhor maneira,
+                    * optei por utilizar a notifyItemRemoved ao invés de utilizar notifySetDataChanged.*/
+                    val novalistaDeGastos = categoriaDAO.listar()
+                    categoriaAdapter?.recarregarListaPorDelecao(
+                        novalistaDeGastos,
+                        viewHolder.adapterPosition //viewHolder.adapterPosition reflete a posição do item no RV
+                    )
+
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Erro ao tentar deletar categoria!",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            }
+        })
 
 
 }

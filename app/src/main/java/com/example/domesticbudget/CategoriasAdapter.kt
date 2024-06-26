@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.domesticbudget.model.Categoria
+import com.example.domesticbudget.model.Gasto
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -21,6 +22,11 @@ class CategoriasAdapter(
     fun recarregarLista(lista: List<Categoria>) {
         this.listaCategorias = lista
         notifyDataSetChanged()
+    }
+
+    fun recarregarListaPorDelecao(lista: List<Categoria>, position: Int) {
+        this.listaCategorias = lista
+        notifyItemRemoved(position)
     }
 
     inner class CategoriasViewHolder(
@@ -75,6 +81,12 @@ class CategoriasAdapter(
         holder.periodo.text = calcularEntreDatas(categoria.periodo)
         holder.valorRestante.text = "Restam R$ ${restante.format()}"
     }
+
+    fun recuperarId(position: Int): Int {
+        val categoria = listaCategorias[position]
+        return categoria.idCategoria
+    }
+
 
     /*AVISO IMPORTANTE!!!!!!!!!!
     * Essa função calcula a diferença entre duas datas, e depende diretamente que as
