@@ -38,7 +38,22 @@ class CategoriaDAO(context: Context) : ICategoriasDAO {
     }
 
     override fun remover(idCategoria: Int): Boolean {
-        TODO("Not yet implemented")
+
+        val args = arrayOf(idCategoria.toString())
+
+        try {
+            escrita.delete(
+                DatabaseHelper.NOME_TABELA_CATEGORIAS,
+                "${DatabaseHelper.COLUNA_CATEGORIAS_ID} = ?",
+                args
+            )
+
+            Log.i("info_db", "Sucesso ao deletar categoria!")
+        } catch (e: Exception) {
+            Log.e("info_db", "Erro ao deletar categoria!")
+            return false
+        }
+        return true
     }
 
     override fun listar(): List<Categoria> {
