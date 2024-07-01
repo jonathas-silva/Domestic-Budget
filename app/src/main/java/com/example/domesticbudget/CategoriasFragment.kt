@@ -55,7 +55,7 @@ class CategoriasFragment : Fragment() {
 
 
         //Inflação do RecyclerView
-        categoriaAdapter = CategoriasAdapter()
+        categoriaAdapter = CategoriasAdapter { categoria -> editar(categoria) }
         rvCategorias.adapter = categoriaAdapter
         rvCategorias.layoutManager = LinearLayoutManager(activity)
         itemTouchHelper.attachToRecyclerView(rvCategorias)
@@ -71,6 +71,17 @@ class CategoriasFragment : Fragment() {
 
 
         return view
+
+    }
+
+    private fun editar(categoria: Categoria) {
+        //1 - Abrir uma intent nova
+        val intent = Intent(requireContext(),NovaCategoriaActivity::class.java)
+
+        intent.putExtra("categoria",categoria)
+
+        startActivity(intent)
+
 
     }
 

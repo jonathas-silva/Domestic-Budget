@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.domesticbudget.model.Categoria
@@ -15,7 +16,7 @@ import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 class CategoriasAdapter(
-    //private val lista: List<Categoria>
+    val onClickEditar: (Categoria) -> Unit
 ) : Adapter<CategoriasAdapter.CategoriasViewHolder>() {
 
     private var listaCategorias: List<Categoria> = emptyList()
@@ -37,6 +38,7 @@ class CategoriasAdapter(
         val valorCategoria: TextView = itemView.findViewById(R.id.valorCategoria)
         val periodo: TextView = itemView.findViewById(R.id.txtPeriodoOrcamento)
         val valorRestante: TextView = itemView.findViewById(R.id.txtValorRestante)
+        val container : ConstraintLayout = itemView.findViewById(R.id.containerItemCategorias)
 
     }
 
@@ -80,6 +82,11 @@ class CategoriasAdapter(
         holder.valorCategoria.text = "R$ ${categoria.valor.format()}"
         holder.periodo.text = calcularEntreDatas(categoria.periodo)
         holder.valorRestante.text = "Restam R$ ${restante.format()}"
+
+        holder.container.setOnClickListener {
+            onClickEditar(categoria)
+        }
+
     }
 
     fun recuperarId(position: Int): Int {
