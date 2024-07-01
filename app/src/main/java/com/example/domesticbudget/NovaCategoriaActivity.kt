@@ -29,11 +29,27 @@ class NovaCategoriaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        //Recuperando a categoria passada para edição
+        val bundle = intent.extras
+        if (bundle!=null){ //Significa que essa activity foi criada pelo botão editar
+
+            //Agora vamos testar a versão do android do cabra
+
+
+            val categoria = bundle.getSerializable("categoria", Categoria::class.java)
+
+            if (categoria != null) {
+                binding.inputNome.setText(categoria.nome)
+                binding.inputOrcamento.setText(categoria.valor.toString())
+                binding.inputDataTermino.setText(categoria.periodo)
+            }
+
         }
 
         inicializarToolbar()
