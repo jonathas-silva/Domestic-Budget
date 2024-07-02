@@ -1,6 +1,7 @@
 package com.example.domesticbudget
 
 import android.app.DatePickerDialog
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -37,22 +38,64 @@ class NovaCategoriaActivity : AppCompatActivity() {
 
         //Recuperando a categoria passada para edição
         val bundle = intent.extras
-        if (bundle!=null){ //Significa que essa activity foi criada pelo botão editar
+
+        //Vamos fazer  toda a verificação quanto a nulidade do bundle. Aqui verificaremos se é edição
+        //ou criação
+        if (bundle != null) { //Significa que essa activity foi criada pelo botão editar
+            inicializarToolbar("Editar Categoria")
+            var categoria: Categoria? = null
 
             //Agora vamos testar a versão do android do cabra
 
+            //Se for maior que a versão 33, vamos usar a função criada a partir do 33
+            categoria = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                bundle.getSerializable("categoria", Categoria::class.java)
 
-            val categoria = bundle.getSerializable("categoria", Categoria::class.java)
+            } else { //Se for menor, vamos usar a versão depreciada
+                bundle.getSerializable("categoria") as Categoria
+            }
 
             if (categoria != null) {
                 binding.inputNome.setText(categoria.nome)
                 binding.inputOrcamento.setText(categoria.valor.toString())
                 binding.inputDataTermino.setText(categoria.periodo)
+
+                binding.btnSalvar.text = "Atualizar"
+
+                binding.btnSalvar.setOnClickListener {
+                    val categoriaAtualizada = Categoria(
+                        categoria.idCategoria,
+                        binding.inputNome.text.toString(),
+                        binding.inputOrcamento.text.toString().toDouble(),
+                        binding.inputDataTermino.text.toString()
+                    )
+                    val categoriaDAO = CategoriaDAO(this)
+                    categoriaDAO.atualizar(categoria)
+                }
+
             }
 
+        } else {
+            inicializarToolbar("Nova Categoria")
+            binding.btnSalvar.setOnClickListener {
+                val novaCategoria = Categoria(
+                    -1,
+                    binding.inputNome.text.toString(),
+                    binding.inputOrcamento.text.toString().toDouble(),
+                    binding.inputDataTermino.text.toString()
+                )
+
+                //vamos tentar salvar
+                val categoriaDAO = CategoriaDAO(this)
+                if (categoriaDAO.salvar(novaCategoria)) {
+                    Toast.makeText(this, "Categoria salva com sucesso!", Toast.LENGTH_SHORT).show()
+                    finish()
+                } else {
+                    Toast.makeText(this, "Erro ao salvar categoria!", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
-        inicializarToolbar()
 
         /*        binding.inputDataTermino.setOnFocusChangeListener { v, hasFocus ->
                     if (hasFocus) {
@@ -64,29 +107,12 @@ class NovaCategoriaActivity : AppCompatActivity() {
             mostrarDataPicker()
         }
 
-        binding.btnSalvar.setOnClickListener {
-            val novaCategoria = Categoria(
-                -1,
-                binding.inputNome.text.toString(),
-                binding.inputOrcamento.text.toString().toDouble(),
-                binding.inputDataTermino.text.toString()
-            )
-
-            //vamos tentar salvar
-            val categoriaDAO = CategoriaDAO(this)
-            if (categoriaDAO.salvar(novaCategoria)) {
-                Toast.makeText(this, "Categoria salva com sucesso!", Toast.LENGTH_SHORT).show()
-                finish()
-            } else {
-                Toast.makeText(this, "Erro ao salvar categoria!", Toast.LENGTH_SHORT).show()
-            }
-        }
 
     }
 
-    private fun inicializarToolbar() {
+    private fun inicializarToolbar(titulo: String) {
 
-        binding.novaCategoriaToolbar.tbPrincipal.title = "Nova Categoria"
+        binding.novaCategoriaToolbar.tbPrincipal.title = titulo
         binding.novaCategoriaToolbar.tbPrincipal.isTitleCentered = true
         binding.novaCategoriaToolbar.tbPrincipal.setTitleTextColor(
             ContextCompat.getColor(
