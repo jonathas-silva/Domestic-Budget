@@ -34,7 +34,28 @@ class CategoriaDAO(context: Context) : ICategoriasDAO {
     }
 
     override fun atualizar(categoria: Categoria): Boolean {
-        TODO("Not yet implemented")
+
+        val args = arrayOf(categoria.idCategoria.toString())
+
+        val conteudo = ContentValues()
+        conteudo.put(DatabaseHelper.COLUNA_CATEGORIAS_NOME, categoria.nome)
+        conteudo.put(DatabaseHelper.COLUNA_CATEGORIAS_VALOR, categoria.valor)
+        conteudo.put(DatabaseHelper.COLUNA_CATEGORIAS_PERIODO, categoria.periodo)
+
+        try {
+                escrita.update(
+                    DatabaseHelper.NOME_TABELA_CATEGORIAS,
+                    conteudo,
+                    "${DatabaseHelper.COLUNA_CATEGORIAS_ID} = ?",
+                    args
+                )
+         }catch (e: Exception){
+            Log.e("info_db", "Erro ao atualizar categoria!!")
+            return false
+        }
+
+
+        return true
     }
 
     override fun remover(idCategoria: Int): Boolean {

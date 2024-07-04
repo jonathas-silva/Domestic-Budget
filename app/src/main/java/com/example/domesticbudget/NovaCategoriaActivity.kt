@@ -70,7 +70,14 @@ class NovaCategoriaActivity : AppCompatActivity() {
                         binding.inputDataTermino.text.toString()
                     )
                     val categoriaDAO = CategoriaDAO(this)
-                    categoriaDAO.atualizar(categoria)
+
+                    if (categoriaDAO.atualizar(categoriaAtualizada)) {
+                        Toast.makeText(this, "Categoria atualizada!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "Erro ao atualizar categoria!", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
                 }
 
             }
