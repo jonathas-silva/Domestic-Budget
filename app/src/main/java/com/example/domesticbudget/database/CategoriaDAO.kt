@@ -3,7 +3,6 @@ package com.example.domesticbudget.database
 import android.content.ContentValues
 import android.content.Context
 import android.util.Log
-import android.view.WindowManager.InvalidDisplayException
 import com.example.domesticbudget.model.Categoria
 
 class CategoriaDAO(context: Context) : ICategoriasDAO {
@@ -43,13 +42,13 @@ class CategoriaDAO(context: Context) : ICategoriasDAO {
         conteudo.put(DatabaseHelper.COLUNA_CATEGORIAS_PERIODO, categoria.periodo)
 
         try {
-                escrita.update(
-                    DatabaseHelper.NOME_TABELA_CATEGORIAS,
-                    conteudo,
-                    "${DatabaseHelper.COLUNA_CATEGORIAS_ID} = ?",
-                    args
-                )
-         }catch (e: Exception){
+            escrita.update(
+                DatabaseHelper.NOME_TABELA_CATEGORIAS,
+                conteudo,
+                "${DatabaseHelper.COLUNA_CATEGORIAS_ID} = ?",
+                args
+            )
+        } catch (e: Exception) {
             Log.e("info_db", "Erro ao atualizar categoria!!")
             return false
         }

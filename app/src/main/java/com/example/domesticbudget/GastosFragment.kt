@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,8 +30,8 @@ class GastosFragment : Fragment() {
         rvGastos = view.findViewById(R.id.recyclerGastos)
 
         //definindo o adapter
-        gastosAdapter = GastosAdapter { id ->
-            confirmarExclusao(id)
+        gastosAdapter = GastosAdapter { gasto: Gasto ->
+            atualizarGasto(gasto)
         }
         rvGastos.adapter = gastosAdapter
         rvGastos.layoutManager = LinearLayoutManager(activity)
@@ -48,19 +49,26 @@ class GastosFragment : Fragment() {
 
     }
 
+    private fun atualizarGasto(gasto: Gasto) {
+        //Vamos criar um alert builder personalizado
 
-    private fun confirmarExclusao(id: Int) {
+        //Criando o alert builder
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Editar gasto")
 
-        val gastoDAO = GastoDAO(requireContext())
-        if (gastoDAO.deletar(id)) {
-            Toast.makeText(requireContext(), "Gasto deletado!", Toast.LENGTH_SHORT).show()
-            atualizarRVGastos()
-        } else {
-            Toast.makeText(requireContext(), "Erro ao tentar deletar gasto!", Toast.LENGTH_SHORT)
-                .show()
-        }
+        //definindo o layout customizado
+        val customLayout: View = layoutInflater.inflate(R.layout.custom_alert_gastos_edt, null)
+        builder.setView(customLayout)
+
+        //Adicionando um botão
+        builder.setPositiveButton("Beleza") { _, _ -> }
+
+        //criando e mostrando o alert dialog
+        val dialog = builder.create()
+        dialog.show()
 
     }
+
 
     override fun onStart() {
         super.onStart()

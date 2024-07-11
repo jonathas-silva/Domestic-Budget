@@ -12,7 +12,7 @@ import com.example.domesticbudget.model.Gasto
 //
 
 class GastosAdapter(
-    val onClickExcluir: (Int) -> Unit
+    val onClickEditar: (Gasto) -> Unit
 ) : RecyclerView.Adapter<GastosAdapter.GastosViewHolder>() {
 
     private var listaDeGastos: List<Gasto> = emptyList()
@@ -64,7 +64,9 @@ class GastosAdapter(
         holder.data.text = gasto.data
 
         holder.container.setOnClickListener {
-            //onClickExcluir(gasto.idGasto)
+
+            onClickEditar(gasto)
+
         }
 
 

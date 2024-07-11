@@ -8,7 +8,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.domesticbudget.model.Categoria
-import com.example.domesticbudget.model.Gasto
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -38,7 +37,7 @@ class CategoriasAdapter(
         val valorCategoria: TextView = itemView.findViewById(R.id.valorCategoria)
         val periodo: TextView = itemView.findViewById(R.id.txtPeriodoOrcamento)
         val valorRestante: TextView = itemView.findViewById(R.id.txtValorRestante)
-        val container : ConstraintLayout = itemView.findViewById(R.id.containerItemCategorias)
+        val container: ConstraintLayout = itemView.findViewById(R.id.containerItemCategorias)
 
     }
 

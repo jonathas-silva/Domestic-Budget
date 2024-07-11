@@ -73,6 +73,7 @@ class NovaCategoriaActivity : AppCompatActivity() {
 
                     if (categoriaDAO.atualizar(categoriaAtualizada)) {
                         Toast.makeText(this, "Categoria atualizada!", Toast.LENGTH_SHORT).show()
+                        finish()
                     } else {
                         Toast.makeText(this, "Erro ao atualizar categoria!", Toast.LENGTH_SHORT)
                             .show()
