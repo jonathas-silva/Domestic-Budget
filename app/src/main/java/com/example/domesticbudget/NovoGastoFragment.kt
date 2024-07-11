@@ -57,7 +57,7 @@ class NovoGastoFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_novo_gasto, container, false)
 
 
-        inputCategoria = view.findViewById(R.id.inputCategoria)
+        inputCategoria = view.findViewById(R.id.inputEditarCategoria)
         btnSalvar = view.findViewById(R.id.btnSalvar)
         inputValor = view.findViewById(R.id.inputValor)
         inputDescricao = view.findViewById(R.id.inputDescricao)

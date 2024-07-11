@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -62,6 +64,16 @@ class GastosFragment : Fragment() {
 
         //Adicionando um botão
         builder.setPositiveButton("Beleza") { _, _ -> }
+
+        //povoando a dropdown de categorias de categorias
+        val categoria = customLayout.findViewById<AutoCompleteTextView>(R.id.inputEditarCategoria)
+        val listaCategorias = listOf("Alimentação", "teste")
+        val adapter = ArrayAdapter(
+            requireContext(),
+            R.layout.list_item, listaCategorias
+        )
+        categoria.setAdapter(adapter)
+
 
         //criando e mostrando o alert dialog
         val dialog = builder.create()
