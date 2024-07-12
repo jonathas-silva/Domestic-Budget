@@ -16,6 +16,7 @@ import com.example.domesticbudget.database.CategoriaDAO
 import com.example.domesticbudget.database.GastoDAO
 import com.example.domesticbudget.model.Gasto
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 
 class GastosFragment : Fragment() {
 
@@ -63,8 +64,6 @@ class GastosFragment : Fragment() {
         val customLayout: View = layoutInflater.inflate(R.layout.custom_alert_gastos_edt, null)
         builder.setView(customLayout)
 
-        //Adicionando um botão
-        builder.setPositiveButton("Beleza") { _, _ -> }
 
         //povoando a dropdown de categorias de categorias
         val categoria = customLayout.findViewById<AutoCompleteTextView>(R.id.inputEditarCategoria)
@@ -78,6 +77,33 @@ class GastosFragment : Fragment() {
             listaDeIndices.add(cat.idCategoria)
         }
 
+        //recuperando as entradas dos editTexts
+        val valorEditado = customLayout.findViewById<TextInputEditText>(R.id.InputValorEditGastos)
+        val descricaoEditado = customLayout.findViewById<TextInputEditText>(R.id.InputDescricaoEditGastos)
+
+        valorEditado.setText(gasto.valor.toString())
+        descricaoEditado.setText(gasto.descricao)
+        val numCategoria = listaDeIndices.indexOf(gasto.categoria)
+        categoria.setText(listaNomesCategorias[numCategoria], false)
+
+        //Adicionando um botão
+        builder.setPositiveButton("Atualizar") { _, _ ->
+
+            val indiceRelativoCategoria = listaNomesCategorias.indexOf(categoria.text.toString())
+            val indiceRealCategoria = listaDeIndices[indiceRelativoCategoria]
+
+            var gastoEditado = Gasto(
+                gasto.idGasto,
+                valorEditado.text.toString().toDouble(),
+                descricaoEditado.text.toString(),
+                indiceRealCategoria,
+                "10/10/2021"
+            )
+
+            atualizarGastoEditado(gastoEditado)
+
+        }
+        builder.setNegativeButton("Cancelar"){ _, _ ->}
 
         val adapter = ArrayAdapter(
             requireContext(),
@@ -85,11 +111,17 @@ class GastosFragment : Fragment() {
         )
         categoria.setAdapter(adapter)
 
+        //mandando os dados para o fragment de origem
+
 
         //criando e mostrando o alert dialog
         val dialog = builder.create()
         dialog.show()
 
+    }
+
+    private fun atualizarGastoEditado(gastoEditado: Gasto) {
+        Toast.makeText(requireContext(), "mudado categoria para ${gastoEditado.categoria}", Toast.LENGTH_SHORT).show()
     }
 
 
