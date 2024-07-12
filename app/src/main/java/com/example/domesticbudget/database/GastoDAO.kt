@@ -34,7 +34,27 @@ class GastoDAO(context: Context) : IGastoDAO {
     }
 
     override fun atualizar(gasto: Gasto): Boolean {
-        TODO("Not yet implemented")
+
+        val args = arrayOf(gasto.idGasto.toString())
+
+        val conteudo = ContentValues()
+        conteudo.put(DatabaseHelper.COLUNA_GASTOS_VALOR, gasto.valor)
+        conteudo.put(DatabaseHelper.COLUNA_GASTOS_DESCRICAO, gasto.descricao)
+        conteudo.put(DatabaseHelper.COLUNA_GASTOS_CATEGORIA, gasto.categoria)
+        conteudo.put(DatabaseHelper.COLUNA_GASTOS_DATA, gasto.data)
+
+        try {
+                escrita.update(
+                    DatabaseHelper.NOME_TABELA_GASTOS,
+                    conteudo,
+                    "${DatabaseHelper.COLUNA_GASTOS_ID} = ?",
+                    args
+                )
+         }catch (e: Exception){
+            Log.e("info_db", "Erro ao atualizar!")
+            return false
+        }
+        return true
     }
 
     override fun deletar(indice: Int): Boolean {

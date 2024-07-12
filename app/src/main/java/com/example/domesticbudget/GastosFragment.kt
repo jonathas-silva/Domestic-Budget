@@ -92,12 +92,14 @@ class GastosFragment : Fragment() {
             val indiceRelativoCategoria = listaNomesCategorias.indexOf(categoria.text.toString())
             val indiceRealCategoria = listaDeIndices[indiceRelativoCategoria]
 
-            var gastoEditado = Gasto(
+            //Para simplificação não teremos opção de alterar a data, a priori
+            //Caso seja necessário, adicionaremos essa opção depois
+            val gastoEditado = Gasto(
                 gasto.idGasto,
                 valorEditado.text.toString().toDouble(),
                 descricaoEditado.text.toString(),
                 indiceRealCategoria,
-                "10/10/2021"
+                gasto.data
             )
 
             atualizarGastoEditado(gastoEditado)
@@ -121,7 +123,13 @@ class GastosFragment : Fragment() {
     }
 
     private fun atualizarGastoEditado(gastoEditado: Gasto) {
-        Toast.makeText(requireContext(), "mudado categoria para ${gastoEditado.categoria}", Toast.LENGTH_SHORT).show()
+        val gastoDAO = GastoDAO(requireContext())
+        if (gastoDAO.atualizar(gastoEditado)){
+            Toast.makeText(requireContext(), "Gasto atualizado com sucesso!", Toast.LENGTH_SHORT).show()
+            atualizarRVGastos()
+        }else{
+            Toast.makeText(requireContext(), "Erro ao atualizar gasto!", Toast.LENGTH_SHORT).show()
+        }
     }
 
 
