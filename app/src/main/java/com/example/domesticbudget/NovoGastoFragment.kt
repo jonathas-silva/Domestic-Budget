@@ -14,6 +14,9 @@ import com.example.domesticbudget.database.CategoriaDAO
 import com.example.domesticbudget.database.GastoDAO
 import com.example.domesticbudget.model.Gasto
 import com.google.android.material.textfield.TextInputEditText
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class NovoGastoFragment : Fragment() {
 
@@ -71,6 +74,12 @@ class NovoGastoFragment : Fragment() {
             val num = listaNomesCategorias.indexOf(inputCategoria.text.toString())
             var indiceCategoria = -1
 
+            //definindo a data atual
+            val hoje = Calendar.getInstance()
+            val formatador = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val dataFormatada = formatador.format(hoje.time)
+
+
             if (num != -1) {
                 indiceCategoria = listaDeIndices[num]
                 //Vamos montar o objeto e adicioná-lo
@@ -79,7 +88,7 @@ class NovoGastoFragment : Fragment() {
                     inputValor.text.toString().toDouble(),
                     inputDescricao.text.toString(),
                     indiceCategoria,
-                    "12/01/2024"
+                    dataFormatada
                 )
                 val gastoDAO = GastoDAO(requireContext())
                 if (gastoDAO.salvar(novoGasto)){
