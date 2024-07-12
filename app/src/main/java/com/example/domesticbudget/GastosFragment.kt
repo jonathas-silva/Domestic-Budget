@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domesticbudget.database.CategoriaDAO
 import com.example.domesticbudget.database.GastoDAO
 import com.example.domesticbudget.model.Gasto
 import com.google.android.material.snackbar.Snackbar
@@ -67,10 +68,20 @@ class GastosFragment : Fragment() {
 
         //povoando a dropdown de categorias de categorias
         val categoria = customLayout.findViewById<AutoCompleteTextView>(R.id.inputEditarCategoria)
-        val listaCategorias = listOf("Alimentação", "teste")
+
+        val categoriaDAO = CategoriaDAO(requireContext())
+        val listaDeCategorias = categoriaDAO.listar()
+        val listaNomesCategorias = ArrayList<String>()
+        val listaDeIndices = ArrayList<Int>()
+        listaDeCategorias.forEach { cat ->
+            listaNomesCategorias.add(cat.nome)
+            listaDeIndices.add(cat.idCategoria)
+        }
+
+
         val adapter = ArrayAdapter(
             requireContext(),
-            R.layout.list_item, listaCategorias
+            R.layout.list_item, listaNomesCategorias
         )
         categoria.setAdapter(adapter)
 
