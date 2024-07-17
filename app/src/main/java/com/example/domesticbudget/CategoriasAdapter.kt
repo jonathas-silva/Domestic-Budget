@@ -1,5 +1,6 @@
 package com.example.domesticbudget
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.domesticbudget.database.CategoriaDAO
 import com.example.domesticbudget.model.Categoria
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -15,8 +17,11 @@ import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 class CategoriasAdapter(
-    val onClickEditar: (Categoria) -> Unit
+    val onClickEditar: (Categoria) -> Unit,
+    val context: Context,
+    val recuperarSoma: (Int) -> Double
 ) : Adapter<CategoriasAdapter.CategoriasViewHolder>() {
+
 
     private var listaCategorias: List<Categoria> = emptyList()
     fun recarregarLista(lista: List<Categoria>) {
@@ -40,6 +45,9 @@ class CategoriasAdapter(
         val container: ConstraintLayout = itemView.findViewById(R.id.containerItemCategorias)
 
     }
+
+
+    private val categoriaDAO = CategoriaDAO(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriasViewHolder {
 
@@ -80,7 +88,12 @@ class CategoriasAdapter(
         holder.nomeCategoria.text = categoria.nome
         holder.valorCategoria.text = "R$ ${categoria.valor.format()}"
         holder.periodo.text = calcularEntreDatas(categoria.periodo)
-        holder.valorRestante.text = "Restam R$ ${restante.format()}"
+
+        val somaDaCategoria = categoriaDAO.somarCategoria(categoria.idCategoria)
+
+        val soma = recuperarSoma(categoria.idCategoria)
+
+        holder.valorRestante.text = "Restam R$ ${somaDaCategoria.format()}"
 
         holder.container.setOnClickListener {
             onClickEditar(categoria)

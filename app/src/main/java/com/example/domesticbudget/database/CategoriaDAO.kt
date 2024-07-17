@@ -107,4 +107,24 @@ class CategoriaDAO(context: Context) : ICategoriasDAO {
 
     }
 
+    //Retorna o quanto foi gasto até agora na categoria especificada
+    fun somarCategoria(categoriaId: Int) : Double{
+
+        val sql = "SELECT SUM(${DatabaseHelper.COLUNA_GASTOS_VALOR})  AS resultado FROM ${DatabaseHelper.NOME_TABELA_GASTOS} WHERE ${DatabaseHelper.COLUNA_GASTOS_CATEGORIA}=$categoriaId;\n"
+
+        var resultado = -1.0
+
+        val cursor = leitura.rawQuery(sql,null)
+
+        /*É esperado apenas um resultado nessa consulta, que será um double.
+        * Se o cursor estiver vazio, ou seja, se a query não tiver retornado nada,
+        * o trecho de código abaixo não será executado.*/
+        if(cursor.moveToFirst()){
+            resultado = cursor.getDouble(cursor.getColumnIndexOrThrow("resultado"))
+        }
+
+        cursor.close()
+    return resultado
+    }
+
 }
