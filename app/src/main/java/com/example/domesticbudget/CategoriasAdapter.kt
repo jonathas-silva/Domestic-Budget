@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit
 
 class CategoriasAdapter(
     val onClickEditar: (Categoria) -> Unit,
-    val context: Context,
     val recuperarSoma: (Int) -> Double
 ) : Adapter<CategoriasAdapter.CategoriasViewHolder>() {
 
@@ -46,8 +45,6 @@ class CategoriasAdapter(
 
     }
 
-
-    private val categoriaDAO = CategoriaDAO(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriasViewHolder {
 
@@ -82,18 +79,18 @@ class CategoriasAdapter(
         }
 
         //Esse valor gasto está estático, mas será calculado dinamicamente posteriormente
-        val valorGasto = 200.00
-        val restante = categoria.valor - valorGasto
+
 
         holder.nomeCategoria.text = categoria.nome
         holder.valorCategoria.text = "R$ ${categoria.valor.format()}"
         holder.periodo.text = calcularEntreDatas(categoria.periodo)
 
-        val somaDaCategoria = categoriaDAO.somarCategoria(categoria.idCategoria)
-
+        //estamos recuperando dinâmicamente direto do fragment
+        //até então, essa é a maneira mais adequada de fazer isso. [pesquisar]
         val soma = recuperarSoma(categoria.idCategoria)
+        val restante = categoria.valor - soma
 
-        holder.valorRestante.text = "Restam R$ ${somaDaCategoria.format()}"
+        holder.valorRestante.text = "Restam R$ ${restante.format()}"
 
         holder.container.setOnClickListener {
             onClickEditar(categoria)

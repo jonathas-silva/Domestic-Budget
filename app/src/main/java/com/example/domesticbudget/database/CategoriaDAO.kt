@@ -108,6 +108,7 @@ class CategoriaDAO(context: Context) : ICategoriasDAO {
     }
 
     //Retorna o quanto foi gasto até agora na categoria especificada
+    //Quando a leitura não encontra nada, retorna -1
     fun somarCategoria(categoriaId: Int) : Double{
 
         val sql = "SELECT SUM(${DatabaseHelper.COLUNA_GASTOS_VALOR})  AS resultado FROM ${DatabaseHelper.NOME_TABELA_GASTOS} WHERE ${DatabaseHelper.COLUNA_GASTOS_CATEGORIA}=$categoriaId;\n"
