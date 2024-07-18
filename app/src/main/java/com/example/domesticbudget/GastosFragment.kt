@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -22,7 +23,7 @@ import java.sql.Array
 class GastosFragment : Fragment() {
 
     private lateinit var rvGastos: RecyclerView
-    private lateinit var menuCategorias: AutoCompleteTextView
+    private lateinit var menuCategorias: Spinner
 
     private var listaDeGastos: List<Gasto> = emptyList()
     private var gastosAdapter: GastosAdapter? = null
@@ -34,7 +35,7 @@ class GastosFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_gastos, container, false)
 
         rvGastos = view.findViewById(R.id.recyclerGastos)
-        menuCategorias = view.findViewById(R.id.menuCategorias)
+        menuCategorias = view.findViewById(R.id.spinnerCategorias)
 
         //definindo o adapter
         gastosAdapter = GastosAdapter { gasto: Gasto ->
@@ -51,12 +52,22 @@ class GastosFragment : Fragment() {
         * sejam feitas corretamente
         * 3. Referenciar o adapter do RV como esse nosso gastoAdapter instanciado.*/
 
+        //POVOANDO DINÂMICAMENTE A LISTA DE CATEGORIAS
         val listaItens = arrayListOf("Todos","Todes","Alimentação")
+        val categoriaDAO = CategoriaDAO(requireContext())
+        val listaDeCategorias = categoriaDAO.listar()
+        val listaDeNomesDeCategorias = arrayListOf<String>()
+
+        listaDeNomesDeCategorias.add("Todos")
+        listaDeCategorias.forEach {
+            categoria -> listaDeNomesDeCategorias.add(categoria.nome)
+        }
+
 
         val adapter = ArrayAdapter(
             requireContext(),
             R.layout.list_item,
-            listaItens
+            listaDeNomesDeCategorias
         )
 
         menuCategorias.setAdapter(adapter)
