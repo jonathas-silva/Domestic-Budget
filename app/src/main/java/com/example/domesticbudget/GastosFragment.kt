@@ -17,10 +17,12 @@ import com.example.domesticbudget.database.GastoDAO
 import com.example.domesticbudget.model.Gasto
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import java.sql.Array
 
 class GastosFragment : Fragment() {
 
     private lateinit var rvGastos: RecyclerView
+    private lateinit var menuCategorias: AutoCompleteTextView
 
     private var listaDeGastos: List<Gasto> = emptyList()
     private var gastosAdapter: GastosAdapter? = null
@@ -32,6 +34,7 @@ class GastosFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_gastos, container, false)
 
         rvGastos = view.findViewById(R.id.recyclerGastos)
+        menuCategorias = view.findViewById(R.id.menuCategorias)
 
         //definindo o adapter
         gastosAdapter = GastosAdapter { gasto: Gasto ->
@@ -48,6 +51,15 @@ class GastosFragment : Fragment() {
         * sejam feitas corretamente
         * 3. Referenciar o adapter do RV como esse nosso gastoAdapter instanciado.*/
 
+        val listaItens = arrayListOf("Todos","Todes","Alimentação")
+
+        val adapter = ArrayAdapter(
+            requireContext(),
+            R.layout.list_item,
+            listaItens
+        )
+
+        menuCategorias.setAdapter(adapter)
 
         return view
 
