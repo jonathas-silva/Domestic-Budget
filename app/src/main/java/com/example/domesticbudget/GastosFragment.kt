@@ -77,11 +77,17 @@ class GastosFragment : Fragment() {
         menuCategorias.adapter = adapter
 
         //Definindo o listener para cada elemento selecionado
+        //Esse listener vai funcionar assim que o fragment é criado, perfeito para filtrar as views
         menuCategorias.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
             //p0 é o parent, p2 é o integer que retorna a posição na lista
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                Toast.makeText(requireContext(), "item ${p2} selecionado", Toast.LENGTH_SHORT).show()
+
+                //está funcionando. É o melhor jeito? Não sei
+                if(p2!=0){
+                    Toast.makeText(requireContext(), "item de id ${listaDeCategorias[p2-1].idCategoria} selecionado", Toast.LENGTH_SHORT).show()
+                }
+
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -177,6 +183,9 @@ class GastosFragment : Fragment() {
 
 
     override fun onStart() {
+
+        //Verificar se devo colocar o listener do spinner aqui
+
         super.onStart()
         atualizarRVGastos()
     }

@@ -107,4 +107,35 @@ class GastoDAO(context: Context) : IGastoDAO {
         return listaDeGastos
 
     }
+
+    fun listarFilrado(idCategoria: Int): List<Gasto> {
+        val listaFiltradaDeGastos = mutableListOf<Gasto>()
+
+        //CORRIGIR DEPOIS UTILIZANDO SELECTION ARGS
+        val sql = "SELECT * FROM ${DatabaseHelper.NOME_TABELA_GASTOS} WHERE ${DatabaseHelper.COLUNA_GASTOS_CATEGORIA} = $idCategoria "
+
+        val cursor = leitura.rawQuery(sql, null)
+
+        //indices da tabela
+        val indiceId = cursor.getColumnIndex(DatabaseHelper.COLUNA_GASTOS_ID)
+        val valorId = cursor.getColumnIndex(DatabaseHelper.COLUNA_GASTOS_VALOR)
+        val descricaoId = cursor.getColumnIndex(DatabaseHelper.COLUNA_GASTOS_DESCRICAO)
+        val categoriaId = cursor.getColumnIndex(DatabaseHelper.COLUNA_GASTOS_CATEGORIA)
+        val dataId = cursor.getColumnIndex(DatabaseHelper.COLUNA_GASTOS_DATA)
+
+
+        while (cursor.moveToNext()) {
+            val idGasto = cursor.getInt(indiceId)
+            val valor = cursor.getDouble(valorId)
+            val descricao = cursor.getString(descricaoId)
+            val categoria = cursor.getInt(categoriaId)
+            val data = cursor.getString(dataId)
+            listaFiltradaDeGastos.add(
+                Gasto(idGasto, valor, descricao, categoria, data)
+            )
+        }
+
+        cursor.close()
+        return listaFiltradaDeGastos
+    }
 }
