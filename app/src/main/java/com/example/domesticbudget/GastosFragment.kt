@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Spinner
@@ -53,7 +54,6 @@ class GastosFragment : Fragment() {
         * 3. Referenciar o adapter do RV como esse nosso gastoAdapter instanciado.*/
 
         //POVOANDO DINÂMICAMENTE A LISTA DE CATEGORIAS
-        val listaItens = arrayListOf("Todos","Todes","Alimentação")
         val categoriaDAO = CategoriaDAO(requireContext())
         val listaDeCategorias = categoriaDAO.listar()
         val listaDeNomesDeCategorias = arrayListOf<String>()
@@ -63,14 +63,34 @@ class GastosFragment : Fragment() {
             categoria -> listaDeNomesDeCategorias.add(categoria.nome)
         }
 
+        // ===================== --- =====================
+        //Aqui vamos fazer as definições do spiner de seleção das categorias
 
+        //Definindo o adaptador
         val adapter = ArrayAdapter(
             requireContext(),
             R.layout.list_item,
             listaDeNomesDeCategorias
         )
 
-        menuCategorias.setAdapter(adapter)
+        //Inflando o adapter
+        menuCategorias.adapter = adapter
+
+        //Definindo o listener para cada elemento selecionado
+        menuCategorias.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+
+            //p0 é o parent, p2 é o integer que retorna a posição na lista
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                Toast.makeText(requireContext(), "item ${p2} selecionado", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                Toast.makeText(requireContext(), "nada selecionado", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+
 
         return view
 
