@@ -53,49 +53,6 @@ class GastosFragment : Fragment() {
         * sejam feitas corretamente
         * 3. Referenciar o adapter do RV como esse nosso gastoAdapter instanciado.*/
 
-        //POVOANDO DINÂMICAMENTE A LISTA DE CATEGORIAS
-        val categoriaDAO = CategoriaDAO(requireContext())
-        val listaDeCategorias = categoriaDAO.listar()
-        val listaDeNomesDeCategorias = arrayListOf<String>()
-
-        listaDeNomesDeCategorias.add("Todos")
-        listaDeCategorias.forEach {
-            categoria -> listaDeNomesDeCategorias.add(categoria.nome)
-        }
-
-        // ===================== --- =====================
-        //Aqui vamos fazer as definições do spiner de seleção das categorias
-
-        //Definindo o adaptador
-        val adapter = ArrayAdapter(
-            requireContext(),
-            R.layout.list_item,
-            listaDeNomesDeCategorias
-        )
-
-        //Inflando o adapter
-        menuCategorias.adapter = adapter
-
-        //Definindo o listener para cada elemento selecionado
-        //Esse listener vai funcionar assim que o fragment é criado, perfeito para filtrar as views
-        menuCategorias.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-
-            //p0 é o parent, p2 é o integer que retorna a posição na lista
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-
-                //está funcionando. É o melhor jeito? Não sei
-                if(p2!=0){
-                    Toast.makeText(requireContext(), "item de id ${listaDeCategorias[p2-1].idCategoria} selecionado", Toast.LENGTH_SHORT).show()
-                }
-
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                Toast.makeText(requireContext(), "nada selecionado", Toast.LENGTH_SHORT).show()
-            }
-
-        }
-
 
 
         return view
@@ -128,7 +85,8 @@ class GastosFragment : Fragment() {
 
         //recuperando as entradas dos editTexts
         val valorEditado = customLayout.findViewById<TextInputEditText>(R.id.InputValorEditGastos)
-        val descricaoEditado = customLayout.findViewById<TextInputEditText>(R.id.InputDescricaoEditGastos)
+        val descricaoEditado =
+            customLayout.findViewById<TextInputEditText>(R.id.InputDescricaoEditGastos)
 
         valorEditado.setText(gasto.valor.toString())
         descricaoEditado.setText(gasto.descricao)
@@ -154,7 +112,7 @@ class GastosFragment : Fragment() {
             atualizarGastoEditado(gastoEditado)
 
         }
-        builder.setNegativeButton("Cancelar"){ _, _ ->}
+        builder.setNegativeButton("Cancelar") { _, _ -> }
 
         val adapter = ArrayAdapter(
             requireContext(),
@@ -173,10 +131,11 @@ class GastosFragment : Fragment() {
 
     private fun atualizarGastoEditado(gastoEditado: Gasto) {
         val gastoDAO = GastoDAO(requireContext())
-        if (gastoDAO.atualizar(gastoEditado)){
-            Toast.makeText(requireContext(), "Gasto atualizado com sucesso!", Toast.LENGTH_SHORT).show()
-            atualizarRVGastos()
-        }else{
+        if (gastoDAO.atualizar(gastoEditado)) {
+            Toast.makeText(requireContext(), "Gasto atualizado com sucesso!", Toast.LENGTH_SHORT)
+                .show()
+            atualizarRVGastos(gastoEditado.categoria)
+        } else {
             Toast.makeText(requireContext(), "Erro ao atualizar gasto!", Toast.LENGTH_SHORT).show()
         }
     }
@@ -184,15 +143,80 @@ class GastosFragment : Fragment() {
 
     override fun onStart() {
 
-        //Verificar se devo colocar o listener do spinner aqui
+        //POVOANDO DINÂMICAMENTE A LISTA DE CATEGORIAS
+        val categoriaDAO = CategoriaDAO(requireContext())
+        val listaDeCategorias = categoriaDAO.listar()
+        val listaDeNomesDeCategorias = arrayListOf<String>()
+
+        listaDeNomesDeCategorias.add("Todos")
+        listaDeCategorias.forEach { categoria ->
+            listaDeNomesDeCategorias.add(categoria.nome)
+        }
+
+        // ===================== --- =====================
+        //Aqui vamos fazer as definições do spiner de seleção das categorias
+
+        //Definindo o adaptador
+        val adapter = ArrayAdapter(
+            requireContext(),
+            R.layout.list_item,
+            listaDeNomesDeCategorias
+        )
+
+        //Inflando o adapter
+        menuCategorias.adapter = adapter
+
+
+        //Definindo o listener para cada elemento selecionado
+        //Esse listener vai funcionar assim que o fragment é criado, perfeito para filtrar as views
+        menuCategorias.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+
+            //p0 é o parent, p2 é o integer que retorna a posição na lista
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
+                //está funcionando. É o melhor jeito? Não sei
+                if (p2 != 0) {
+                    Toast.makeText(
+                        requireContext(),
+                        "item de id ${listaDeCategorias[p2 - 1].idCategoria} selecionado",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    atualizarRVGastos(listaDeCategorias[p2 - 1].idCategoria)
+                } else {
+                    atualizarRVGastos()
+                }
+
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                Toast.makeText(requireContext(), "nada selecionado", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
 
         super.onStart()
-        atualizarRVGastos()
+        val itemSelecionado = menuCategorias.selectedItemId
+        Toast.makeText(requireContext(), "item selecionado = $itemSelecionado", Toast.LENGTH_SHORT)
+            .show()
+        atualizarRVGastos(menuCategorias.selectedItemId.toInt())
     }
 
-    private fun atualizarRVGastos() {
+    private fun atualizarRVGastos(idFiltragem: Int = 0) {
         val gastoDAO = GastoDAO(requireContext())
-        listaDeGastos = gastoDAO.listar()
+
+        //Vamos filtrar se vamos selecionar todos os gastos ou um específico. Isso vai depender
+        // se for passado um parâmetro ou não na hora de chamar a função atualizarRVGastos
+        //Se não for passado parâmetro nenhum ou se for 0, significa que todos estão selecionados. Por que os ID
+        //no banco de dados começam obrigatóriamente por 1.
+        listaDeGastos = if (idFiltragem != 0) {
+            gastoDAO.listarFilrado(idFiltragem)
+        } else {
+            gastoDAO.listar()
+        }
+
+
         gastosAdapter?.recarregarListaDeGastos(listaDeGastos)
     }
 
