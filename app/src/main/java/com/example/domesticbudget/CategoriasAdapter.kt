@@ -1,6 +1,7 @@
 package com.example.domesticbudget
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,8 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
+import kotlin.math.log
+import kotlin.math.roundToInt
 
 class CategoriasAdapter(
     val onClickEditar: (Categoria) -> Unit,
@@ -42,6 +45,7 @@ class CategoriasAdapter(
         val periodo: TextView = itemView.findViewById(R.id.txtPeriodoOrcamento)
         val valorRestante: TextView = itemView.findViewById(R.id.txtValorRestante)
         val container: ConstraintLayout = itemView.findViewById(R.id.containerItemCategorias)
+        val porcentagemRestante: TextView = itemView.findViewById(R.id.textRestantePercentagem)
 
     }
 
@@ -83,14 +87,29 @@ class CategoriasAdapter(
 
         holder.nomeCategoria.text = categoria.nome
         holder.valorCategoria.text = "R$ ${categoria.valor.format()}"
-        holder.periodo.text = calcularEntreDatas(categoria.periodo)
+
+        val diasRestantes = calcularEntreDatas(categoria.periodo)
+        holder.periodo.text = if (diasRestantes == "1") {
+            "$diasRestantes dia"
+        } else {
+            "$diasRestantes dias"
+        }
+
 
         //estamos recuperando dinâmicamente direto do fragment
         //até então, essa é a maneira mais adequada de fazer isso. [pesquisar]
         val soma = recuperarSoma(categoria.idCategoria)
         val restante = categoria.valor - soma
 
-        holder.valorRestante.text = "Restam R$ ${restante.format()}"
+        holder.valorRestante.text = "R$ ${restante.format()}"
+
+        //Calculo da porcentagem restante
+        val porcentagem = (100 - ((restante / categoria.valor) * 100).roundToInt())
+        Log.i("dbg.calculos", "valor categoria: ${categoria.valor}")
+        Log.i("dbg.calculos", "restante: $restante")
+        Log.i("dbg.calculos", "Porcentagem: $porcentagem")
+
+        holder.porcentagemRestante.text = "$porcentagem %"
 
         holder.container.setOnClickListener {
             onClickEditar(categoria)
