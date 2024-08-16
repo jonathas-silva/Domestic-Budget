@@ -160,7 +160,8 @@ private fun TextInputEditText.addCurrencyMask() {
                 }
 //                Log.i("info_textWatcher", "counter: $counter")
 
-                val novaString = valorLimpo.slice(counter..<valorLimpo.length)
+                val novaString = valorLimpo.trimStart('0')
+
 //                Log.i("info_textWatcher", "novaString: $novaString")
 //                Log.i("info_textWatcher", "comprimeiro nova string: ${novaString.length}")
                 if (novaString.isNotEmpty()) {
