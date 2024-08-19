@@ -41,9 +41,9 @@ class CategoriasAdapter(
     ) : ViewHolder(itemView) {
 
         val nomeCategoria: TextView = itemView.findViewById(R.id.nomeCategoria)
-        val valorCategoria: TextView = itemView.findViewById(R.id.valorCategoria)
+        //val valorCategoria: TextView = itemView.findViewById(R.id.valorCategoria)
         val periodo: TextView = itemView.findViewById(R.id.txtPeriodoOrcamento)
-        val valorRestante: TextView = itemView.findViewById(R.id.txtValorRestante)
+        //val valorRestante: TextView = itemView.findViewById(R.id.txtValorRestante)
         val container: ConstraintLayout = itemView.findViewById(R.id.containerItemCategorias)
         val porcentagemRestante: TextView = itemView.findViewById(R.id.textRestantePercentagem)
 
@@ -86,7 +86,7 @@ class CategoriasAdapter(
 
 
         holder.nomeCategoria.text = categoria.nome
-        holder.valorCategoria.text = "R$ ${categoria.valor.format()}"
+        //holder.valorCategoria.text = "R$ ${categoria.valor.format()}"
 
         val diasRestantes = calcularEntreDatas(categoria.periodo)
         holder.periodo.text = if (diasRestantes == "1") {
@@ -101,7 +101,7 @@ class CategoriasAdapter(
         val soma = recuperarSoma(categoria.idCategoria)
         val restante = categoria.valor - soma
 
-        holder.valorRestante.text = "R$ ${restante.format()}"
+        //holder.valorRestante.text = "R$ ${restante.format()}"
 
         //Calculo da porcentagem restante
         val porcentagem = (100 - ((restante / categoria.valor) * 100).roundToInt())
