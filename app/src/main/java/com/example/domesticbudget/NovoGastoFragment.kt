@@ -27,7 +27,7 @@ class NovoGastoFragment : Fragment() {
 
     private lateinit var inputCategoria: AutoCompleteTextView
     private lateinit var btnSalvar: Button
-        private lateinit var inputValor: TextInputEditText
+    private lateinit var inputValor: TextInputEditText
     private lateinit var inputDescricao: TextInputEditText
 
 
@@ -87,7 +87,9 @@ class NovoGastoFragment : Fragment() {
             val dataFormatada = formatador.format(hoje.time)
 
 
-            if (num != -1) {
+            if (num != -1 && inputValor.text.toString()
+                    .isNotEmpty() && inputDescricao.text.toString().isNotEmpty()
+            ) {
                 indiceCategoria = listaDeIndices[num]
                 //Vamos montar o objeto e adicioná-lo
                 val novoGasto = Gasto(
@@ -104,6 +106,12 @@ class NovoGastoFragment : Fragment() {
                         "Gasto inserido com sucesso!",
                         Toast.LENGTH_SHORT
                     ).show()
+                    //Limpar todos os campos
+                    inputValor.setText("")
+                    inputDescricao.setText("")
+                    inputValor.requestFocus()
+
+
                 } else {
                     Toast.makeText(
                         requireContext(),
@@ -112,6 +120,12 @@ class NovoGastoFragment : Fragment() {
                     ).show()
                 }
 
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Você tem que preencher antes de salvar, amigo",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
             Log.i("info_db", indiceCategoria.toString())
