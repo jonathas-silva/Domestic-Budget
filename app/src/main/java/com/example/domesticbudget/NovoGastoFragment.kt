@@ -27,7 +27,7 @@ class NovoGastoFragment : Fragment() {
 
     private lateinit var inputCategoria: AutoCompleteTextView
     private lateinit var btnSalvar: Button
-    private lateinit var inputValor: TextInputEditText
+        private lateinit var inputValor: TextInputEditText
     private lateinit var inputDescricao: TextInputEditText
 
 

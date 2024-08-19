@@ -13,6 +13,7 @@ import com.example.domesticbudget.Utilidades.addCurrencyMask
 import com.example.domesticbudget.database.CategoriaDAO
 import com.example.domesticbudget.databinding.ActivityNovaCategoriaBinding
 import com.example.domesticbudget.model.Categoria
+import com.google.android.material.textfield.TextInputEditText
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -124,7 +125,7 @@ class NovaCategoriaActivity : AppCompatActivity() {
         binding.inputOrcamento.addCurrencyMask()
 
         binding.containerDataTermino.setStartIconOnClickListener {
-            mostrarDataPicker()
+            Utilidades.mostrarDataPicker(binding.inputDataTermino, this)
         }
 
 
@@ -144,40 +145,5 @@ class NovaCategoriaActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun mostrarDataPicker() {
-
-        val c = Calendar.getInstance()
-
-
-        //esses valores serão os recuperados como padrão no momento que o picker abrir
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-
-        //Dialog para mostrar o data picker.
-        //Guardar modelo, muitíssimo útil
-        val datePickerDialog = DatePickerDialog(
-            this,
-            { _, y, monthOfYear, dayOfMonth ->
-
-                //recuperando a data recebida
-                val dataRecebida = Calendar.getInstance()
-                dataRecebida.set(y, monthOfYear, dayOfMonth)
-
-                Log.i("info_datas", dataRecebida.timeInMillis.toString())
-
-                //formatando a data recebida
-                val formatador = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                val dataFormatada = formatador.format(dataRecebida.time)
-
-                binding.inputDataTermino.setText(dataFormatada)
-            },
-            year,
-            month,
-            day
-        )
-
-        datePickerDialog.show()
-    }
 }
 
