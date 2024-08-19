@@ -9,9 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.domesticbudget.Utilidades.addCurrencyMask
 import com.example.domesticbudget.database.CategoriaDAO
 import com.example.domesticbudget.databinding.ActivityNovaCategoriaBinding
 import com.example.domesticbudget.model.Categoria
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -56,8 +58,13 @@ class NovaCategoriaActivity : AppCompatActivity() {
             }
 
             if (categoria != null) {
+                //ATUALIZANDO CATEGORIA
                 binding.inputNome.setText(categoria.nome)
-                binding.inputOrcamento.setText(categoria.valor.toString())
+                binding.inputOrcamento.setText(
+                    NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
+                        .format(categoria.valor)
+                    //categoria.valor.toString()
+                )
                 binding.inputDataTermino.setText(categoria.periodo)
 
                 binding.btnSalvar.text = "Atualizar"
@@ -66,7 +73,7 @@ class NovaCategoriaActivity : AppCompatActivity() {
                     val categoriaAtualizada = Categoria(
                         categoria.idCategoria,
                         binding.inputNome.text.toString(),
-                        binding.inputOrcamento.text.toString().toDouble(),
+                        Utilidades.limpadorDeFormatacao(binding.inputOrcamento.text.toString()),
                         binding.inputDataTermino.text.toString()
                     )
                     val categoriaDAO = CategoriaDAO(this)
@@ -84,12 +91,13 @@ class NovaCategoriaActivity : AppCompatActivity() {
             }
 
         } else {
+            //CRIANDO NOVA CATEGORIA
             inicializarToolbar("Nova Categoria")
             binding.btnSalvar.setOnClickListener {
                 val novaCategoria = Categoria(
                     -1,
                     binding.inputNome.text.toString(),
-                    binding.inputOrcamento.text.toString().toDouble(),
+                    Utilidades.limpadorDeFormatacao(binding.inputOrcamento.text.toString()),
                     binding.inputDataTermino.text.toString()
                 )
 
@@ -110,6 +118,10 @@ class NovaCategoriaActivity : AppCompatActivity() {
                         mostrarDataPicker()
                     }
                 }*/
+
+        //Adicionando a formatação para BRL. Atento que para recuperar o valor é preciso limpá-lo
+        //ainda bem que já tenho uma função para isso
+        binding.inputOrcamento.addCurrencyMask()
 
         binding.containerDataTermino.setStartIconOnClickListener {
             mostrarDataPicker()

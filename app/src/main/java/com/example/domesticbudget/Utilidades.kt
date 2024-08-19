@@ -39,7 +39,7 @@ object Utilidades {
 
                     val formatador = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
                     val valorRealFormatado =
-                        formatador.format(Utilidades.limpadorDeFormatacao(s.toString()))
+                        formatador.format(limpadorDeFormatacao(s.toString()))
 
                     current = valorRealFormatado
                     this@addCurrencyMask.setText(valorRealFormatado)
