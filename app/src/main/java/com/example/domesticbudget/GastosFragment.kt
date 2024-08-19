@@ -14,12 +14,15 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domesticbudget.Utilidades.addCurrencyMask
 import com.example.domesticbudget.database.CategoriaDAO
 import com.example.domesticbudget.database.GastoDAO
 import com.example.domesticbudget.model.Gasto
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import java.sql.Array
+import java.text.NumberFormat
+import java.util.Locale
 
 class GastosFragment : Fragment() {
 
@@ -88,7 +91,12 @@ class GastosFragment : Fragment() {
         val descricaoEditado =
             customLayout.findViewById<TextInputEditText>(R.id.InputDescricaoEditGastos)
 
-        valorEditado.setText(gasto.valor.toString())
+        valorEditado.addCurrencyMask()
+
+        valorEditado.setText(
+            NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
+                .format(gasto.valor)
+        )
         descricaoEditado.setText(gasto.descricao)
         val numCategoria = listaDeIndices.indexOf(gasto.categoria)
         categoria.setText(listaNomesCategorias[numCategoria], false)
@@ -103,7 +111,7 @@ class GastosFragment : Fragment() {
             //Caso seja necessário, adicionaremos essa opção depois
             val gastoEditado = Gasto(
                 gasto.idGasto,
-                valorEditado.text.toString().toDouble(),
+                Utilidades.limpadorDeFormatacao(valorEditado.text.toString()),
                 descricaoEditado.text.toString(),
                 indiceRealCategoria,
                 gasto.data
@@ -197,9 +205,6 @@ class GastosFragment : Fragment() {
 
 
         super.onStart()
-        val itemSelecionado = menuCategorias.selectedItemId
-        Toast.makeText(requireContext(), "item selecionado = $itemSelecionado", Toast.LENGTH_SHORT)
-            .show()
         atualizarRVGastos(menuCategorias.selectedItemId.toInt())
     }
 
