@@ -1,12 +1,14 @@
 package com.example.domesticbudget
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -20,14 +22,15 @@ import com.example.domesticbudget.database.GastoDAO
 import com.example.domesticbudget.model.Gasto
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import java.sql.Array
 import java.text.NumberFormat
 import java.util.Locale
+import kotlin.math.roundToInt
 
 class GastosFragment : Fragment() {
 
     private lateinit var rvGastos: RecyclerView
     private lateinit var menuCategorias: Spinner
+    private lateinit var progressBar: ProgressBar
 
     private var listaDeGastos: List<Gasto> = emptyList()
     private var gastosAdapter: GastosAdapter? = null
@@ -40,6 +43,7 @@ class GastosFragment : Fragment() {
 
         rvGastos = view.findViewById(R.id.recyclerGastos)
         menuCategorias = view.findViewById(R.id.spinnerCategorias)
+        progressBar = view.findViewById(R.id.progressBar)
 
         //definindo o adapter
         gastosAdapter = GastosAdapter { gasto: Gasto ->
@@ -185,14 +189,21 @@ class GastosFragment : Fragment() {
 
                 //está funcionando. É o melhor jeito? Não sei
                 if (p2 != 0) {
-                    Toast.makeText(
-                        requireContext(),
-                        "item de id ${listaDeCategorias[p2 - 1].idCategoria} selecionado",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     atualizarRVGastos(listaDeCategorias[p2 - 1].idCategoria)
+
+                    //Agora precisamos setar o progresso da categoria no nosso gráfico (progressBar)
+                    val valorTotalDaCategoriaSelecionada = listaDeCategorias[p2 - 1].valor
+                    val valorGastoDaCategoriaSelecionada = categoriaDAO.somarCategoria(listaDeCategorias[p2 - 1].idCategoria)
+                    val progressoCategoria = (valorGastoDaCategoriaSelecionada/valorTotalDaCategoriaSelecionada)*100
+                    progressBar.progress = progressoCategoria.roundToInt()
                 } else {
                     atualizarRVGastos()
+                    val valorGastoTotal = categoriaDAO.somarTodosGastos()
+                    val valorTotalDosOrcamentos = categoriaDAO.somarTodosOrcamentos()
+                    Log.i("info_db", "valor total gasto: $valorGastoTotal")
+                    Log.i("info_db", "valor total orcamentos: $valorTotalDosOrcamentos")
+                    val progressoTotal = (valorGastoTotal/valorTotalDosOrcamentos)*100
+                    progressBar.progress = progressoTotal.roundToInt()
                 }
 
             }

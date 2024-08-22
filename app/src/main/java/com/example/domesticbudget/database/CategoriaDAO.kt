@@ -109,23 +109,65 @@ class CategoriaDAO(context: Context) : ICategoriasDAO {
 
     //Retorna o quanto foi gasto até agora na categoria especificada
     //Quando a leitura não encontra nada, retorna -1
-    fun somarCategoria(categoriaId: Int) : Double{
+    fun somarCategoria(categoriaId: Int): Double {
 
-        val sql = "SELECT SUM(${DatabaseHelper.COLUNA_GASTOS_VALOR})  AS resultado FROM ${DatabaseHelper.NOME_TABELA_GASTOS} WHERE ${DatabaseHelper.COLUNA_GASTOS_CATEGORIA}=$categoriaId;\n"
+        val sql =
+            "SELECT SUM(${DatabaseHelper.COLUNA_GASTOS_VALOR})  AS resultado FROM ${DatabaseHelper.NOME_TABELA_GASTOS} WHERE ${DatabaseHelper.COLUNA_GASTOS_CATEGORIA}=$categoriaId;\n"
 
         var resultado = -1.0
 
-        val cursor = leitura.rawQuery(sql,null)
+        val cursor = leitura.rawQuery(sql, null)
 
         /*É esperado apenas um resultado nessa consulta, que será um double.
         * Se o cursor estiver vazio, ou seja, se a query não tiver retornado nada,
         * o trecho de código abaixo não será executado.*/
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             resultado = cursor.getDouble(cursor.getColumnIndexOrThrow("resultado"))
         }
 
         cursor.close()
-    return resultado
+        return resultado
+    }
+
+    //Função que retorna a soma de todos os valores gastos para todas as categorias
+    fun somarTodosGastos(): Double {
+
+        val sql =
+            "SELECT SUM(${DatabaseHelper.COLUNA_GASTOS_VALOR})  AS resultado FROM ${DatabaseHelper.NOME_TABELA_GASTOS};"
+
+        var resultado = -1.0
+
+        val cursor = leitura.rawQuery(sql, null)
+
+        /*É esperado apenas um resultado nessa consulta, que será um double.
+        * Se o cursor estiver vazio, ou seja, se a query não tiver retornado nada,
+        * o trecho de código abaixo não será executado.*/
+        if (cursor.moveToFirst()) {
+            resultado = cursor.getDouble(cursor.getColumnIndexOrThrow("resultado"))
+        }
+
+        cursor.close()
+        return resultado
+    }
+
+    fun somarTodosOrcamentos(): Double {
+
+        val sql =
+            "SELECT SUM(${DatabaseHelper.COLUNA_CATEGORIAS_VALOR})  AS resultado FROM ${DatabaseHelper.NOME_TABELA_CATEGORIAS};"
+
+        var resultado = -1.0
+
+        val cursor = leitura.rawQuery(sql, null)
+
+        /*É esperado apenas um resultado nessa consulta, que será um double.
+        * Se o cursor estiver vazio, ou seja, se a query não tiver retornado nada,
+        * o trecho de código abaixo não será executado.*/
+        if (cursor.moveToFirst()) {
+            resultado = cursor.getDouble(cursor.getColumnIndexOrThrow("resultado"))
+        }
+
+        cursor.close()
+        return resultado
     }
 
 }
