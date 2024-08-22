@@ -32,7 +32,11 @@ class GastosFragment : Fragment() {
     private lateinit var rvGastos: RecyclerView
     private lateinit var menuCategorias: Spinner
     private lateinit var progressBar: ProgressBar
+
     private lateinit var porcentagemGastos: TextView
+    private lateinit var valorTotalOrcamento: TextView
+    private lateinit var valorTotalGasto: TextView
+
 
     private var listaDeGastos: List<Gasto> = emptyList()
     private var gastosAdapter: GastosAdapter? = null
@@ -46,7 +50,11 @@ class GastosFragment : Fragment() {
         rvGastos = view.findViewById(R.id.recyclerGastos)
         menuCategorias = view.findViewById(R.id.spinnerCategorias)
         progressBar = view.findViewById(R.id.progressBar)
+
         porcentagemGastos = view.findViewById(R.id.txtPorcentagem)
+        valorTotalOrcamento = view.findViewById(R.id.txtValorTotalOrcamento)
+        valorTotalGasto = view.findViewById(R.id.txtValorTotalGasto)
+
 
         //definindo o adapter
         gastosAdapter = GastosAdapter { gasto: Gasto ->
@@ -202,6 +210,11 @@ class GastosFragment : Fragment() {
                         (valorGastoDaCategoriaSelecionada / valorTotalDaCategoriaSelecionada) * 100
                     progressBar.progress = progressoCategoria.roundToInt()
                     porcentagemGastos.text = "${progressoCategoria.roundToInt()}%"
+                    valorTotalOrcamento.text = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
+                        .format(valorTotalDaCategoriaSelecionada)
+                    valorTotalGasto.text = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
+                        .format(valorGastoDaCategoriaSelecionada)
+
                 } else {
                     atualizarRVGastos()
                     val valorGastoTotal = categoriaDAO.somarTodosGastos()
@@ -211,6 +224,11 @@ class GastosFragment : Fragment() {
                     val progressoTotal = (valorGastoTotal / valorTotalDosOrcamentos) * 100
                     progressBar.progress = progressoTotal.roundToInt()
                     porcentagemGastos.text = "${progressoTotal.roundToInt()}%"
+                    valorTotalOrcamento.text = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
+                        .format(valorTotalDosOrcamentos)
+                    valorTotalGasto.text =
+                        NumberFormat.getCurrencyInstance(Locale("pt", "BR")).format(valorGastoTotal)
+
                 }
 
             }

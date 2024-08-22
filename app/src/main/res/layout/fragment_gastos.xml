@@ -35,13 +35,13 @@
         android:id="@+id/progressBar"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginBottom="32dp"
         android:indeterminateOnly="false"
         android:progress="75"
         android:progressDrawable="@drawable/circle"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/txtPorcentagem"
@@ -53,5 +53,46 @@
         app:layout_constraintEnd_toEndOf="@+id/progressBar"
         app:layout_constraintStart_toStartOf="@+id/progressBar"
         app:layout_constraintTop_toTopOf="@+id/progressBar" />
+
+    <TextView
+        android:id="@+id/txtDescricaoResultado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Valor do orçamento:"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/progressBar" />
+
+    <TextView
+        android:id="@+id/txtValorTotalOrcamento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="R$ 45,00"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/txtDescricaoResultado"
+        app:layout_constraintTop_toBottomOf="@+id/txtDescricaoResultado" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Valor gasto:"
+        app:layout_constraintStart_toStartOf="@+id/txtValorTotalOrcamento"
+        app:layout_constraintTop_toBottomOf="@+id/txtValorTotalOrcamento" />
+
+    <TextView
+        android:id="@+id/txtValorTotalGasto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="R$ 12,00"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
