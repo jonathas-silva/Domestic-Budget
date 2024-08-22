@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ProgressBar
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -31,6 +32,7 @@ class GastosFragment : Fragment() {
     private lateinit var rvGastos: RecyclerView
     private lateinit var menuCategorias: Spinner
     private lateinit var progressBar: ProgressBar
+    private lateinit var porcentagemGastos: TextView
 
     private var listaDeGastos: List<Gasto> = emptyList()
     private var gastosAdapter: GastosAdapter? = null
@@ -44,6 +46,7 @@ class GastosFragment : Fragment() {
         rvGastos = view.findViewById(R.id.recyclerGastos)
         menuCategorias = view.findViewById(R.id.spinnerCategorias)
         progressBar = view.findViewById(R.id.progressBar)
+        porcentagemGastos = view.findViewById(R.id.txtPorcentagem)
 
         //definindo o adapter
         gastosAdapter = GastosAdapter { gasto: Gasto ->
@@ -193,17 +196,21 @@ class GastosFragment : Fragment() {
 
                     //Agora precisamos setar o progresso da categoria no nosso gráfico (progressBar)
                     val valorTotalDaCategoriaSelecionada = listaDeCategorias[p2 - 1].valor
-                    val valorGastoDaCategoriaSelecionada = categoriaDAO.somarCategoria(listaDeCategorias[p2 - 1].idCategoria)
-                    val progressoCategoria = (valorGastoDaCategoriaSelecionada/valorTotalDaCategoriaSelecionada)*100
+                    val valorGastoDaCategoriaSelecionada =
+                        categoriaDAO.somarCategoria(listaDeCategorias[p2 - 1].idCategoria)
+                    val progressoCategoria =
+                        (valorGastoDaCategoriaSelecionada / valorTotalDaCategoriaSelecionada) * 100
                     progressBar.progress = progressoCategoria.roundToInt()
+                    porcentagemGastos.text = "${progressoCategoria.roundToInt()}%"
                 } else {
                     atualizarRVGastos()
                     val valorGastoTotal = categoriaDAO.somarTodosGastos()
                     val valorTotalDosOrcamentos = categoriaDAO.somarTodosOrcamentos()
                     Log.i("info_db", "valor total gasto: $valorGastoTotal")
                     Log.i("info_db", "valor total orcamentos: $valorTotalDosOrcamentos")
-                    val progressoTotal = (valorGastoTotal/valorTotalDosOrcamentos)*100
+                    val progressoTotal = (valorGastoTotal / valorTotalDosOrcamentos) * 100
                     progressBar.progress = progressoTotal.roundToInt()
+                    porcentagemGastos.text = "${progressoTotal.roundToInt()}%"
                 }
 
             }
