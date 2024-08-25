@@ -57,6 +57,15 @@ class CategoriaDAO(context: Context) : ICategoriasDAO {
         return true
     }
 
+    /**Essa função remove um item do banco de dados pelo ID
+    *
+    *
+    * @param idCategoria o ID da categoria a ser deletado
+    *
+    *@return `true` se conseguir deletar, `false` se não conseguir
+     *
+     * @author Jonathas Silva
+    * */
     override fun remover(idCategoria: Int): Boolean {
 
         val args = arrayOf(idCategoria.toString())

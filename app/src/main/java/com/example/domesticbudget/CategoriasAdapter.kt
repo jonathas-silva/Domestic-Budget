@@ -32,8 +32,8 @@ class CategoriasAdapter(
     }
 
     fun recarregarListaPorDelecao(lista: List<Categoria>, position: Int) {
-        this.listaCategorias = lista
         notifyItemRemoved(position)
+        this.listaCategorias = lista
     }
 
     inner class CategoriasViewHolder(
@@ -41,8 +41,10 @@ class CategoriasAdapter(
     ) : ViewHolder(itemView) {
 
         val nomeCategoria: TextView = itemView.findViewById(R.id.nomeCategoria)
+
         //val valorCategoria: TextView = itemView.findViewById(R.id.valorCategoria)
         val periodo: TextView = itemView.findViewById(R.id.txtPeriodoOrcamento)
+
         //val valorRestante: TextView = itemView.findViewById(R.id.txtValorRestante)
         val container: ConstraintLayout = itemView.findViewById(R.id.containerItemCategorias)
         val porcentagemRestante: TextView = itemView.findViewById(R.id.textRestantePercentagem)
@@ -116,6 +118,7 @@ class CategoriasAdapter(
         }
 
     }
+
 
     fun recuperarId(position: Int): Int {
         val categoria = listaCategorias[position]

@@ -135,6 +135,11 @@ class CategoriasFragment : Fragment() {
                         ).show()
                     }
 
+                    categoriaAdapter?.recarregarListaPorDelecao(
+                        categoriaDAO.listar(), //recupera novamente do banco dedos, pq a deleção deu certo
+                        viewHolder.adapterPosition //viewHolder.adapterPosition reflete a posição do item no RV
+                    )
+
 
                 } else {
                     Toast.makeText(
@@ -143,13 +148,12 @@ class CategoriasFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     )
                         .show()
+                    categoriaAdapter?.recarregarLista(
+                        categoriaDAO.listar()
+                    )
                 }
 
-                val novalistaDeGastos = categoriaDAO.listar()
-                categoriaAdapter?.recarregarListaPorDelecao(
-                    novalistaDeGastos,
-                    viewHolder.adapterPosition //viewHolder.adapterPosition reflete a posição do item no RV
-                )
+
             }
         })
 
