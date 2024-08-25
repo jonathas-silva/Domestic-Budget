@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.domesticbudget.Utilidades.addCurrencyMask
 import com.example.domesticbudget.database.CategoriaDAO
 import com.example.domesticbudget.database.GastoDAO
+import com.example.domesticbudget.model.Categoria
 import com.example.domesticbudget.model.Gasto
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -157,7 +158,7 @@ class GastosFragment : Fragment() {
         if (gastoDAO.atualizar(gastoEditado)) {
             Toast.makeText(requireContext(), "Gasto atualizado com sucesso!", Toast.LENGTH_SHORT)
                 .show()
-            atualizarRVGastos(gastoEditado.categoria)
+            atualizarRVGastos(gastoEditado.categoria) //O problema aqui é que se a categoria for alterada, não vai refletir no RV. Resolver
         } else {
             Toast.makeText(requireContext(), "Erro ao atualizar gasto!", Toast.LENGTH_SHORT).show()
         }
@@ -199,37 +200,7 @@ class GastosFragment : Fragment() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
 
                 //está funcionando. É o melhor jeito? Não sei
-                if (p2 != 0) {
-                    atualizarRVGastos(listaDeCategorias[p2 - 1].idCategoria)
-
-                    //Agora precisamos setar o progresso da categoria no nosso gráfico (progressBar)
-                    val valorTotalDaCategoriaSelecionada = listaDeCategorias[p2 - 1].valor
-                    val valorGastoDaCategoriaSelecionada =
-                        categoriaDAO.somarCategoria(listaDeCategorias[p2 - 1].idCategoria)
-                    val progressoCategoria =
-                        (valorGastoDaCategoriaSelecionada / valorTotalDaCategoriaSelecionada) * 100
-                    progressBar.progress = progressoCategoria.roundToInt()
-                    porcentagemGastos.text = "${progressoCategoria.roundToInt()}%"
-                    valorTotalOrcamento.text = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
-                        .format(valorTotalDaCategoriaSelecionada)
-                    valorTotalGasto.text = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
-                        .format(valorGastoDaCategoriaSelecionada)
-
-                } else {
-                    atualizarRVGastos()
-                    val valorGastoTotal = categoriaDAO.somarTodosGastos()
-                    val valorTotalDosOrcamentos = categoriaDAO.somarTodosOrcamentos()
-                    Log.i("info_db", "valor total gasto: $valorGastoTotal")
-                    Log.i("info_db", "valor total orcamentos: $valorTotalDosOrcamentos")
-                    val progressoTotal = (valorGastoTotal / valorTotalDosOrcamentos) * 100
-                    progressBar.progress = progressoTotal.roundToInt()
-                    porcentagemGastos.text = "${progressoTotal.roundToInt()}%"
-                    valorTotalOrcamento.text = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
-                        .format(valorTotalDosOrcamentos)
-                    valorTotalGasto.text =
-                        NumberFormat.getCurrencyInstance(Locale("pt", "BR")).format(valorGastoTotal)
-
-                }
+                recarregadorRecyclerView(p2, listaDeCategorias, categoriaDAO)
 
             }
 
@@ -239,9 +210,46 @@ class GastosFragment : Fragment() {
 
         }
 
-
         super.onStart()
         atualizarRVGastos(menuCategorias.selectedItemId.toInt())
+    }
+
+    private fun recarregadorRecyclerView(
+        p2: Int,
+        listaDeCategorias: List<Categoria>,
+        categoriaDAO: CategoriaDAO
+    ) {
+        if (p2 != 0) {
+            atualizarRVGastos(listaDeCategorias[p2 - 1].idCategoria)
+
+            //Agora precisamos setar o progresso da categoria no nosso gráfico (progressBar)
+            val valorTotalDaCategoriaSelecionada = listaDeCategorias[p2 - 1].valor
+            val valorGastoDaCategoriaSelecionada =
+                categoriaDAO.somarCategoria(listaDeCategorias[p2 - 1].idCategoria)
+            val progressoCategoria =
+                (valorGastoDaCategoriaSelecionada / valorTotalDaCategoriaSelecionada) * 100
+            progressBar.progress = progressoCategoria.roundToInt()
+            porcentagemGastos.text = "${progressoCategoria.roundToInt()}%"
+            valorTotalOrcamento.text = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
+                .format(valorTotalDaCategoriaSelecionada)
+            valorTotalGasto.text = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
+                .format(valorGastoDaCategoriaSelecionada)
+
+        } else {
+            atualizarRVGastos()
+            val valorGastoTotal = categoriaDAO.somarTodosGastos()
+            val valorTotalDosOrcamentos = categoriaDAO.somarTodosOrcamentos()
+            Log.i("info_db", "valor total gasto: $valorGastoTotal")
+            Log.i("info_db", "valor total orcamentos: $valorTotalDosOrcamentos")
+            val progressoTotal = (valorGastoTotal / valorTotalDosOrcamentos) * 100
+            progressBar.progress = progressoTotal.roundToInt()
+            porcentagemGastos.text = "${progressoTotal.roundToInt()}%"
+            valorTotalOrcamento.text = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
+                .format(valorTotalDosOrcamentos)
+            valorTotalGasto.text =
+                NumberFormat.getCurrencyInstance(Locale("pt", "BR")).format(valorGastoTotal)
+
+        }
     }
 
     private fun atualizarRVGastos(idFiltragem: Int = 0) {
@@ -274,6 +282,7 @@ class GastosFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
                 val gastoDAO = GastoDAO(requireContext())
+                val numSpinner = menuCategorias.selectedItemId
 
                 /*Estamos usando non-null assertion aqui por que temos certeza de que a variável
                 * gastosAdapter sempre será instanciada na criação da view, e nesse ponto da execução
@@ -286,6 +295,17 @@ class GastosFragment : Fragment() {
                             "Item deletado!",
                             Snackbar.LENGTH_SHORT
                         ).show()
+
+
+                        gastosAdapter?.notifyItemRemoved(viewHolder.adapterPosition)
+
+/*                        gastosAdapter?.recarregarListaPorDelecao(
+                            gastoDAO.listar(),
+                            viewHolder.adapterPosition
+                        )*/
+
+
+                        Log.i("info_db", menuCategorias.selectedItemId.toString())
                     }
 
                 } else {
@@ -295,16 +315,12 @@ class GastosFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     )
                         .show()
+
+                    gastosAdapter?.recarregarListaDeGastos(gastoDAO.listar())
                 }
-                //A RV será atualizada tanto se der quanto se não der certo para evitar problemas de renderização
-                //da função onSwipea
-                /*Para aproveitar a fluidez do material design da melhor maneira,
-                 * optei por utilizar a notifyItemRemoved ao invés de utilizar notifySetDataChanged.*/
-                val novalistaDeGastos = gastoDAO.listar()
-                gastosAdapter?.recarregarListaPorDelecao(
-                    novalistaDeGastos,
-                    viewHolder.adapterPosition //viewHolder.adapterPosition reflete a posição do item no RV
-                )
+
+                recarregadorRecyclerView(numSpinner.toInt(), CategoriaDAO(requireContext()).listar(),CategoriaDAO(requireContext()))
+
             }
         })
 
