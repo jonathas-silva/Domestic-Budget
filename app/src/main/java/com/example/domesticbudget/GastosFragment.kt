@@ -135,6 +135,17 @@ class GastosFragment : Fragment() {
 
             atualizarGastoEditado(gastoEditado)
 
+            //Depois de atualizado o gasto editado, vamos chamar novamente o sppiner para atualizar a lista mostrada e os gráficos
+            //Aqui ele pode lançar um outOfBounds Exception, então vamos usar um try. Caso pegue um erro, mostra todas as categorias
+            try {
+                menuCategorias.setSelection(indiceRelativoCategoria + 1)
+            } catch (e: Exception) {
+                Log.e("info_db", "Problema no recarregamento da lista ao atualizar gastos!")
+                menuCategorias.setSelection(0)
+            }
+
+            Log.i("info_db", indiceRelativoCategoria.toString())
+
         }
         builder.setNegativeButton("Cancelar") { _, _ -> }
 
@@ -158,7 +169,8 @@ class GastosFragment : Fragment() {
         if (gastoDAO.atualizar(gastoEditado)) {
             Toast.makeText(requireContext(), "Gasto atualizado com sucesso!", Toast.LENGTH_SHORT)
                 .show()
-            atualizarRVGastos(gastoEditado.categoria) //O problema aqui é que se a categoria for alterada, não vai refletir no RV. Resolver
+            atualizarRVGastos(gastoEditado.categoria)
+
         } else {
             Toast.makeText(requireContext(), "Erro ao atualizar gasto!", Toast.LENGTH_SHORT).show()
         }
@@ -176,6 +188,7 @@ class GastosFragment : Fragment() {
         listaDeCategorias.forEach { categoria ->
             listaDeNomesDeCategorias.add(categoria.nome)
         }
+
 
         // ===================== --- =====================
         //Aqui vamos fazer as definições do spiner de seleção das categorias
@@ -200,7 +213,7 @@ class GastosFragment : Fragment() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
 
                 //está funcionando. É o melhor jeito? Não sei
-                recarregadorRecyclerView(p2, listaDeCategorias, categoriaDAO)
+                recarregadorRecyclerView(p2)
 
             }
 
@@ -214,18 +227,16 @@ class GastosFragment : Fragment() {
         atualizarRVGastos(menuCategorias.selectedItemId.toInt())
     }
 
-    private fun recarregadorRecyclerView(
-        p2: Int,
-        listaDeCategorias: List<Categoria>,
-        categoriaDAO: CategoriaDAO
-    ) {
-        if (p2 != 0) {
-            atualizarRVGastos(listaDeCategorias[p2 - 1].idCategoria)
+    private fun recarregadorRecyclerView(indiceDoSpinner: Int) {
+        val categoriaDAO = CategoriaDAO(requireContext())
+        val listaDeCategorias = categoriaDAO.listar()
+        if (indiceDoSpinner != 0) {
+            atualizarRVGastos(listaDeCategorias[indiceDoSpinner - 1].idCategoria)
 
             //Agora precisamos setar o progresso da categoria no nosso gráfico (progressBar)
-            val valorTotalDaCategoriaSelecionada = listaDeCategorias[p2 - 1].valor
+            val valorTotalDaCategoriaSelecionada = listaDeCategorias[indiceDoSpinner - 1].valor
             val valorGastoDaCategoriaSelecionada =
-                categoriaDAO.somarCategoria(listaDeCategorias[p2 - 1].idCategoria)
+                categoriaDAO.somarCategoria(listaDeCategorias[indiceDoSpinner - 1].idCategoria)
             val progressoCategoria =
                 (valorGastoDaCategoriaSelecionada / valorTotalDaCategoriaSelecionada) * 100
             progressBar.progress = progressoCategoria.roundToInt()
@@ -299,10 +310,10 @@ class GastosFragment : Fragment() {
 
                         gastosAdapter?.notifyItemRemoved(viewHolder.adapterPosition)
 
-/*                        gastosAdapter?.recarregarListaPorDelecao(
-                            gastoDAO.listar(),
-                            viewHolder.adapterPosition
-                        )*/
+                        /*                        gastosAdapter?.recarregarListaPorDelecao(
+                                                    gastoDAO.listar(),
+                                                    viewHolder.adapterPosition
+                                                )*/
 
 
                         Log.i("info_db", menuCategorias.selectedItemId.toString())
@@ -319,7 +330,7 @@ class GastosFragment : Fragment() {
                     gastosAdapter?.recarregarListaDeGastos(gastoDAO.listar())
                 }
 
-                recarregadorRecyclerView(numSpinner.toInt(), CategoriaDAO(requireContext()).listar(),CategoriaDAO(requireContext()))
+                recarregadorRecyclerView(numSpinner.toInt())
 
             }
         })
