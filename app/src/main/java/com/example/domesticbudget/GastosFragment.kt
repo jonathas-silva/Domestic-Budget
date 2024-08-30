@@ -250,9 +250,19 @@ class GastosFragment : Fragment() {
             atualizarRVGastos()
             val valorGastoTotal = categoriaDAO.somarTodosGastos()
             val valorTotalDosOrcamentos = categoriaDAO.somarTodosOrcamentos()
+
+            Log.i("info_db", valorGastoTotal.toString())
+            Log.i("info_db", valorTotalDosOrcamentos.toString())
+
             Log.i("info_db", "valor total gasto: $valorGastoTotal")
             Log.i("info_db", "valor total orcamentos: $valorTotalDosOrcamentos")
-            val progressoTotal = (valorGastoTotal / valorTotalDosOrcamentos) * 100
+            val progressoTotal = if (valorTotalDosOrcamentos != 0.0) {
+                (valorGastoTotal / valorTotalDosOrcamentos) * 100
+            } else {
+                0.0
+            }
+
+            Log.i("info_db", progressoTotal.toString())
             progressBar.progress = progressoTotal.roundToInt()
             porcentagemGastos.text = "${progressoTotal.roundToInt()}%"
             valorTotalOrcamento.text = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
