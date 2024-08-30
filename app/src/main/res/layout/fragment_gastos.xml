@@ -38,7 +38,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginBottom="32dp"
         android:indeterminateOnly="false"
-        android:progress="75"
+        android:progress="0"
         android:progressDrawable="@drawable/circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -70,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
-        android:text="R$ 45,00"
+        android:text="R$ 0,00"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/txtDescricaoResultado"
         app:layout_constraintTop_toBottomOf="@+id/txtDescricaoResultado" />
@@ -90,7 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
-        android:text="R$ 12,00"
+        android:text="R$ 0,00"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/textView8"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
