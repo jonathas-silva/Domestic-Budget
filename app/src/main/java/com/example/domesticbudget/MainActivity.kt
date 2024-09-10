@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
@@ -80,17 +81,29 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                    TODO("Not yet implemented")
+                    when (menuItem.itemId) {
+                        R.id.item_limpar -> {
+                            Toast.makeText(applicationContext, "Item limpar", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+
+                        R.id.item_sobre -> {
+                            Toast.makeText(applicationContext, "Sobre", Toast.LENGTH_SHORT).show()
+                        }
+
+                        else -> {}
+                    }
+
+                    return true
                 }
 
             }
         )
 
 
-
     }
 
-    fun replaceFragment(fragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment) {
 
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
