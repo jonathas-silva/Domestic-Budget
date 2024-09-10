@@ -5,7 +5,7 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
 
         <item name="android:statusBarColor">@color/md_theme_primary</item>
-
+        <item name="colorControlNormal">@color/md_theme_onPrimary</item>
         <item name="colorPrimary">@color/md_theme_primary</item>
         <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_primaryContainer</item>
@@ -52,6 +52,10 @@
         <item name="colorSurfaceContainer">@color/md_theme_surfaceContainer</item>
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
+    </style>
+
+    <style name="top_menu_theme" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <item name="android:tint">#FFF</item> <!-- Cor desejada -->
     </style>
 
     <style name="Theme.DomesticBudget" parent="Base.Theme.DomesticBudget" />

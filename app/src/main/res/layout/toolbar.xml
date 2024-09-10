@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/top_menu_theme">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tbPrincipal"
@@ -15,6 +16,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIconTint="@android:color/white" />
+        app:navigationIconTint="@android:color/white"
+        app:popupTheme="@style/top_menu_theme" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

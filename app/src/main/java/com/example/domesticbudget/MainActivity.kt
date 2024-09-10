@@ -1,8 +1,12 @@
 package com.example.domesticbudget
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
@@ -58,6 +62,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun inicializarToolbar() {
         binding.includeToolbar.tbPrincipal.title = "Novo gasto"
+        binding.includeToolbar.tbPrincipal.overflowIcon
         binding.includeToolbar.tbPrincipal.isTitleCentered = true
         binding.includeToolbar.tbPrincipal.setTitleTextColor(
             ContextCompat.getColor(
@@ -67,6 +72,22 @@ class MainActivity : AppCompatActivity() {
         )
 
         setSupportActionBar(binding.includeToolbar.tbPrincipal)
+
+        addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menuInflater.inflate(R.menu.top_menu, menu)
+                }
+
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    TODO("Not yet implemented")
+                }
+
+            }
+        )
+
+
+
     }
 
     fun replaceFragment(fragment: Fragment) {
