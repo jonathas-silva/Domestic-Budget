@@ -138,4 +138,16 @@ class GastoDAO(context: Context) : IGastoDAO {
         cursor.close()
         return listaFiltradaDeGastos
     }
+
+    fun deletarTudo():Boolean{
+        try {
+            escrita.execSQL("DELETE FROM ${DatabaseHelper.NOME_TABELA_GASTOS}")
+
+            Log.i("info_db", "Sucesso ao deletar todas os gastos!")
+        } catch (e: Exception) {
+            Log.e("info_db", "Erro ao deletar todas os gastos!")
+            return false
+        }
+        return true
+    }
 }

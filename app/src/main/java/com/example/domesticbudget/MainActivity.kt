@@ -5,12 +5,15 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import com.example.domesticbudget.database.CategoriaDAO
+import com.example.domesticbudget.database.GastoDAO
 import com.example.domesticbudget.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -83,8 +86,7 @@ class MainActivity : AppCompatActivity() {
                 override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                     when (menuItem.itemId) {
                         R.id.item_limpar -> {
-                            Toast.makeText(applicationContext, "Item limpar", Toast.LENGTH_SHORT)
-                                .show()
+                            limparTudo()
                         }
 
                         R.id.item_sobre -> {
@@ -101,6 +103,39 @@ class MainActivity : AppCompatActivity() {
         )
 
 
+    }
+
+    private fun limparTudo() {
+
+        val builder = AlertDialog.Builder(this)
+        val categoriaDAO = CategoriaDAO(this)
+        val gastoDAO = GastoDAO(this)
+
+        builder.setTitle("Atenção!")
+        builder.setMessage("Esta ação deletará todos os gastos e todas as categorias. Tem certeza de que deseja continuar?")
+
+        builder.setPositiveButton("Sim") { _, _ ->
+
+            if (gastoDAO.deletarTudo()) {
+                if (categoriaDAO.deletarTudo()) {
+                    binding.bottomMenu.selectedItemId = R.id.novo_gasto
+                    Toast.makeText(this, "Entradas limpas com sucesso!", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Erro ao deletar as categorias!", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            } else {
+                Toast.makeText(this, "Erro ao deletar os gastos!", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        builder.setNegativeButton("Não") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+
+        builder.show()
     }
 
     private fun replaceFragment(fragment: Fragment) {

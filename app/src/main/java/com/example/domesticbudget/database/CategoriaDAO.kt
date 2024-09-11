@@ -58,14 +58,14 @@ class CategoriaDAO(context: Context) : ICategoriasDAO {
     }
 
     /**Essa função remove um item do banco de dados pelo ID
-    *
-    *
-    * @param idCategoria o ID da categoria a ser deletado
-    *
-    *@return `true` se conseguir deletar, `false` se não conseguir
+     *
+     *
+     * @param idCategoria o ID da categoria a ser deletado
+     *
+     *@return `true` se conseguir deletar, `false` se não conseguir
      *
      * @author Jonathas Silva
-    * */
+     * */
     override fun remover(idCategoria: Int): Boolean {
 
         val args = arrayOf(idCategoria.toString())
@@ -85,6 +85,7 @@ class CategoriaDAO(context: Context) : ICategoriasDAO {
         }
         return true
     }
+
 
     override fun listar(): List<Categoria> {
 
@@ -178,5 +179,19 @@ class CategoriaDAO(context: Context) : ICategoriasDAO {
         cursor.close()
         return resultado
     }
+
+    fun deletarTudo(): Boolean {
+
+        try {
+            escrita.execSQL("DELETE FROM ${DatabaseHelper.NOME_TABELA_CATEGORIAS}")
+
+            Log.i("info_db", "Sucesso ao deletar todas as categorias!")
+        } catch (e: Exception) {
+            Log.e("info_db", "Erro ao deletar todas as categorias!")
+            return false
+        }
+        return true
+    }
+
 
 }
