@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -33,7 +34,7 @@ class GastosAdapter(
         val descricao: TextView = itemView.findViewById(R.id.textDescricao)
         val valor: TextView = itemView.findViewById(R.id.textValor)
         val data: TextView = itemView.findViewById(R.id.textData)
-        val container: ConstraintLayout = itemView.findViewById(R.id.containerCard)
+        val container: CardView = itemView.findViewById(R.id.containerCard)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GastosViewHolder {
