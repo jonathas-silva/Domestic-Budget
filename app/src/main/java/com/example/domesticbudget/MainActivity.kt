@@ -1,13 +1,19 @@
 package com.example.domesticbudget
 
 import android.os.Bundle
+import android.text.Html
+import android.text.method.LinkMovementMethod
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.text.HtmlCompat
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -15,6 +21,8 @@ import androidx.fragment.app.Fragment
 import com.example.domesticbudget.database.CategoriaDAO
 import com.example.domesticbudget.database.GastoDAO
 import com.example.domesticbudget.databinding.ActivityMainBinding
+import org.w3c.dom.Text
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -90,7 +98,7 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         R.id.item_sobre -> {
-                            Toast.makeText(applicationContext, "Sobre", Toast.LENGTH_SHORT).show()
+                            mostrarSobre()
                         }
 
                         else -> {}
@@ -103,6 +111,32 @@ class MainActivity : AppCompatActivity() {
         )
 
 
+    }
+
+    private fun mostrarSobre() {
+
+        val alertDialog = AlertDialog.Builder(this)
+
+        val message = TextView(this).apply {
+            text = HtmlCompat.fromHtml(
+                "App simples para controle de gastos variáveis por orçamentos." +
+                        "<br><br>" +
+                        "Jonathas Silva - 2024<br><a href='https://github.com/jonathas-silva'>Visite minha página no github</a>",
+                HtmlCompat.FROM_HTML_MODE_LEGACY
+            )
+            movementMethod = LinkMovementMethod.getInstance()
+            gravity = Gravity.START // Centraliza o texto
+            setPadding(40, 40, 40, 40) // Define padding para as bordas
+            textSize = 18f // Aumenta o tamanho do texto
+        }
+
+
+        alertDialog.setView(message)
+        alertDialog.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        alertDialog.show()
     }
 
     private fun limparTudo() {
