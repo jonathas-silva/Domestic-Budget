@@ -14,10 +14,10 @@ Domestic Budget é um aplicativo para controle de orçamento doméstico desenvol
 #### Utilização
 
 1. Adicione uma ou mais categorias que reflitam gastos varíaveis e um prazo
-![Screenshot_20240916_144726_Domestic Budget](https://github.com/user-attachments/assets/e02f8d62-2c89-43b6-af57-208a42c4ad6a)
+<img src="https://github.com/user-attachments/assets/e02f8d62-2c89-43b6-af57-208a42c4ad6a" alt="Nova Categoria" width="350" height="750">
 
-2. Adicione os gastos e distribua-os em categorias
-![Screenshot_20240916_144745_Domestic Budget](https://github.com/user-attachments/assets/aba078d9-8d4a-4b82-82c4-86626d9adf8e)
+3. Adicione os gastos e distribua-os em categorias
+<img src="https://github.com/user-attachments/assets/aba078d9-8d4a-4b82-82c4-86626d9adf8e" alt="Novo gasto" width="350" height="750">
 
-3. Visualize seus gastos por categoria
-![Screenshot_20240916_144803_Domestic Budget](https://github.com/user-attachments/assets/383acd9e-6753-4cf1-8efd-ae7abf113ae0)
+5. Visualize seus gastos por categoria
+<img src="https://github.com/user-attachments/assets/383acd9e-6753-4cf1-8efd-ae7abf113ae0" alt="Visualização dos gastos" width="350" height="750">
