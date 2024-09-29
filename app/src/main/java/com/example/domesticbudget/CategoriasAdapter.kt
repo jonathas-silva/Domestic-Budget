@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.domesticbudget.Utilidades.format
 import com.example.domesticbudget.database.CategoriaDAO
 import com.example.domesticbudget.model.Categoria
 import java.text.SimpleDateFormat
@@ -49,7 +50,7 @@ class CategoriasAdapter(
         //val valorRestante: TextView = itemView.findViewById(R.id.txtValorRestante)
         val container: CardView = itemView.findViewById(R.id.containerItemCategorias)
         val valorRestante: TextView = itemView.findViewById(R.id.txtValorRestante)
-
+        val valorTotal: TextView = itemView.findViewById(R.id.txtValorTotal)
     }
 
 
@@ -81,9 +82,9 @@ class CategoriasAdapter(
         //para a variável nome. Em seguida vamos inserir esse valor na textView do itemCategoria que inflamos
         val categoria = listaCategorias[position]
 
-        fun Double.format(): String {
-            return String.format("%.2f", this).replace('.', ',')
-        }
+
+        //função de extensão
+
 
         //Esse valor gasto está estático, mas será calculado dinamicamente posteriormente
 
@@ -104,7 +105,8 @@ class CategoriasAdapter(
         val soma = recuperarSoma(categoria.idCategoria)
         val restante = categoria.valor - soma
 
-        holder.valorRestante.text = "R$ ${restante.format()}"
+        holder.valorRestante.text = "restam R$ ${restante.format()}"
+        holder.valorTotal.text = "R$ ${categoria.valor.format()}"
 
  /*       //Calculo da porcentagem restante
         val porcentagem = (100 - ((restante / categoria.valor) * 100).roundToInt())

@@ -13,8 +13,19 @@ import java.util.Locale
 
 object Utilidades {
 
-    /*Essa função pega uma string bruta, no padrão de formatação de moeda brasileira
-    e devolve o valor double que representa, para que sejam realizados os cálculos adequados
+    /**
+     * Formata o valor [Double] como moeda no formato brasileiro (R$).
+     *
+     * @return String com o valor formatado em reais.
+     */
+    fun Double.format(): String {
+        return String.format("%.2f", this).replace('.', ',')
+    }
+
+
+    /**
+     * Transforma uma string no formato moeda BRL no valor [Double] que ele representa.
+     *
     */
     fun limpadorDeFormatacao(textoBruto: String): Double {
         var valorReal = 0.00;
