@@ -1,25 +1,19 @@
 package com.example.domesticbudget
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.domesticbudget.Utilidades.format
-import com.example.domesticbudget.database.CategoriaDAO
 import com.example.domesticbudget.model.Categoria
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
-import kotlin.math.log
-import kotlin.math.roundToInt
 
 class CategoriasAdapter(
     val onClickEditar: (Categoria) -> Unit,

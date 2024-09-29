@@ -1,5 +1,4 @@
 package com.example.domesticbudget
-
 import android.app.DatePickerDialog
 import android.content.Context
 import android.text.Editable
@@ -11,6 +10,10 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+/**
+ * Classe utilitária com métodos e funções de extensão para operações repetitivas.
+ * @author Jonathas Silva
+ */
 object Utilidades {
 
     /**
@@ -25,7 +28,8 @@ object Utilidades {
 
     /**
      * Transforma uma string no formato moeda BRL no valor [Double] que ele representa.
-     *
+     * @param textoBruto String com o valor formatado em reais.
+     * @return [Double] que representa o valor de entrada
     */
     fun limpadorDeFormatacao(textoBruto: String): Double {
         var valorReal = 0.00;
@@ -41,8 +45,10 @@ object Utilidades {
     }
 
 
-    /*Função de Extensão da Classe TextInputEditText
-    * Ela adiciona listeners de mudança de texto aplicando máscara de formatação no padrão BRL*/
+    /**
+     * Adiciona listeners de mudança de texto ao objeto da classe [TextInputEditText] aplicando máscaras de formação. Deve ser usada quando se quer aplicar uma máscara que atualiza o formato de entrada automaticamente conforme o usuário digita.
+     * */
+
     fun TextInputEditText.addCurrencyMask() {
         this.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -70,6 +76,9 @@ object Utilidades {
         })
     }
 
+    /**
+     * Função de extensão da classe [TextInputEditText] para exibição do picker de data ao clicar na caixa de inserção de texto.
+     * */
     fun mostrarDataPicker(calendarInput: TextInputEditText, context: Context) {
 
         val c = Calendar.getInstance()

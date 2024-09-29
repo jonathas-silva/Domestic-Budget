@@ -1,9 +1,7 @@
 package com.example.domesticbudget
 
-import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -13,10 +11,7 @@ import com.example.domesticbudget.Utilidades.addCurrencyMask
 import com.example.domesticbudget.database.CategoriaDAO
 import com.example.domesticbudget.databinding.ActivityNovaCategoriaBinding
 import com.example.domesticbudget.model.Categoria
-import com.google.android.material.textfield.TextInputEditText
 import java.text.NumberFormat
-import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Locale
 
 
